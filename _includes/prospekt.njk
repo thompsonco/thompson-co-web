@@ -516,23 +516,33 @@
                 .catch((error) => alert('Beklager, det oppstod en feil: ' + error));
             });
         }
+// Logikk for Send-knapp: Krever at ALLE felter er fylt ut
+        const visningFormElement = document.getElementById('visningForm');
+        const submitBtnElement = document.getElementById('submitBtn');
 
-// Logikk for "Godta vilkår"-boks og Send-knapp
-        const termsCheckbox = document.getElementById('terms');
-        const submitBtn = document.getElementById('submitBtn');
+        if(visningFormElement && submitBtnElement) {
+            function checkFormValidity() {
+                // Henter verdiene fra feltene
+                const navn = visningFormElement.elements['navn'].value.trim();
+                const kontakt = visningFormElement.elements['kontakt'].value.trim();
+                const tid = visningFormElement.elements['tid'].value;
+                const terms = document.getElementById('terms').checked;
 
-        if(termsCheckbox && submitBtn) {
-            termsCheckbox.addEventListener('change', function() {
-                if(this.checked) {
-                    submitBtn.disabled = false;
-                    submitBtn.style.opacity = "1";
-                    submitBtn.style.cursor = "pointer";
+                // Sjekker om alt har innhold og boksen er huket av
+                if(navn !== '' && kontakt !== '' && tid !== '' && terms) {
+                    submitBtnElement.disabled = false;
+                    submitBtnElement.style.opacity = "1";
+                    submitBtnElement.style.cursor = "pointer";
                 } else {
-                    submitBtn.disabled = true;
-                    submitBtn.style.opacity = "0.5";
-                    submitBtn.style.cursor = "not-allowed";
+                    submitBtnElement.disabled = true;
+                    submitBtnElement.style.opacity = "0.5";
+                    submitBtnElement.style.cursor = "not-allowed";
                 }
-            });
+            }
+
+            // Kjører sjekken hver gang kunden skriver noe eller endrer et valg
+            visningFormElement.addEventListener('input', checkFormValidity);
+            visningFormElement.addEventListener('change', checkFormValidity);
         }
 
     </script>
