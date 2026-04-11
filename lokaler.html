@@ -25,14 +25,21 @@ layout: false
         .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
         
         .controls-left { display: flex; align-items: center; gap: 10px; }
+        .controls-right { display: flex; align-items: center; gap: 8px; }
         
         .tool-pill { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--white); padding: 8px 18px; border-radius: 30px; cursor: pointer; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; height: 38px; }
         .tool-pill:hover, .tool-pill.active { border-color: var(--pink); color: var(--pink); }
         .tool-pill svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
         
+        /* Visnings-ikoner */
+        .view-btn { background: transparent; border: 1px solid var(--border); color: var(--white); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: 0.3s; padding: 0; }
+        .view-btn:hover, .view-btn.active { border-color: var(--pink); color: var(--pink); background: rgba(209, 163, 184, 0.1); }
+        .view-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* Søk-felt */
         .search-pill { padding-right: 15px; cursor: text; }
         .search-pill input { background: transparent; border: none; color: white; outline: none; font-family: 'Montserrat'; font-size: 0.75rem; width: 0; transition: width 0.3s; padding: 0; }
-        .search-pill.open input, .search-pill input:not(:placeholder-shown) { width: 150px; margin-left: 8px; }
+        .search-pill.open input, .search-pill input:not(:placeholder-shown) { width: 120px; margin-left: 8px; }
 
         /* --- FILTER PANEL --- */
         .filter-panel { display: none; background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-top: none; padding: 1.5rem; flex-direction: column; gap: 20px; margin-bottom: 1.5rem; border-radius: 0 0 8px 8px; }
@@ -44,29 +51,45 @@ layout: false
         .filter-group label { font-size: 0.7rem; text-transform: uppercase; color: var(--pink); font-weight: 600; display: flex; justify-content: space-between; }
         .filter-select { background: var(--plum); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 4px; font-size: 0.8rem; outline: none; }
 
-        /* SLIDER STYLING */
         input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: var(--border); border-radius: 2px; }
-        input[type="range"]::-webkit-slider-thumb { height: 18px; width: 18px; border-radius: 50%; background: var(--pink); cursor: pointer; -webkit-appearance: none; margin-top: -7px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: var(--border); border-radius: 2px; }
+        input[type="range"]::-webkit-slider-thumb { height: 18px; width: 18px; border-radius: 50%; background: var(--pink); -webkit-appearance: none; margin-top: -7px; }
 
-        /* --- LISTINGS --- */
-        .listings-container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        .card { text-decoration: none; color: white; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; transition: 0.4s; position: relative; }
+        /* --- LISTINGS CONTAINER --- */
+        .listings-container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; display: grid; transition: 0.3s; }
+        
+        /* GRID MODE */
+        .listings-container.grid { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .grid .card { flex-direction: column; }
+        .grid .image-container { width: 100%; aspect-ratio: 16/10; }
+
+        /* LIST MODE */
+        .listings-container.list { grid-template-columns: 1fr; gap: 15px; }
+        .list .card { flex-direction: row; height: 120px; align-items: center; }
+        .list .image-container { width: 180px; height: 100%; flex-shrink: 0; }
+        .list .info { padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex: 1; }
+        .list .info h2 { font-size: 1.1rem; margin-bottom: 0; }
+        .list .location { margin-bottom: 0; font-size: 0.75rem; }
+        .list .pub-date { display: none; }
+
+        /* Generell kort-stil */
+        .card { text-decoration: none; color: white; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; transition: 0.4s; position: relative; }
         .card:hover { transform: translateY(-5px); border-color: rgba(209, 163, 184, 0.5); }
-        
         .card.is-utleid { opacity: 0.6; filter: grayscale(0.7); }
-        .utleid-overlay { position: absolute; top: 15px; right: 15px; background: var(--plum); color: var(--pink); border: 1px solid var(--pink); padding: 4px 12px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; z-index: 5; }
-
-        .image-container { width: 100%; aspect-ratio: 16/10; overflow: hidden; background: #2a0d1c; }
+        .utleid-overlay { position: absolute; top: 10px; right: 10px; background: var(--plum); color: var(--pink); border: 1px solid var(--pink); padding: 3px 10px; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; z-index: 5; }
         .image-container img { width: 100%; height: 100%; object-fit: cover; }
-        
         .info { padding: 1.5rem; }
         .pub-date { font-size: 0.6rem; opacity: 0.4; text-transform: uppercase; margin-bottom: 5px; display: block; }
         .info h2 { font-family: 'Libre Baskerville'; font-size: 1.4rem; color: var(--pink); margin-bottom: 5px; }
-        .info .location { font-size: 0.8rem; opacity: 0.7; margin-bottom: 15px; }
+        .info .location { font-size: 0.8rem; opacity: 0.7; }
 
-        @media (max-width: 1000px) { .listings-container { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px) { .listings-container { grid-template-columns: 1fr; } }
+        @media (max-width: 1000px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 650px) { 
+            .grid { grid-template-columns: 1fr; }
+            .list .card { height: auto; flex-direction: column; }
+            .list .image-container { width: 100%; aspect-ratio: 16/9; }
+            .list .info { padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -80,18 +103,27 @@ layout: false
         <div class="toolbar">
             <div class="controls-left">
                 <div class="tool-pill search-pill" onclick="document.getElementById('textSearch').focus(); this.classList.add('open')">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                     <span>Søk</span>
                     <input type="text" id="textSearch" placeholder="..." oninput="applyAllFilters()" onblur="if(this.value==='') this.parentElement.classList.remove('open')">
                 </div>
 
                 <button class="tool-pill" id="filterBtn" onclick="toggleFilter()">
-                    <svg viewBox="0 0 24 24"><path d="M3 4c0-.55.45-1 1-1h16c.55 0 1 .45 1 1v2c0 .28-.11.53-.29.71L15 12.41V20c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1v-7.59L3.29 6.71C3.11 6.53 3 6.28 3 6V4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4c0-.55.45-1 1-1h16c.55 0 1 .45 1 1v2c0 .28-.11.53-.29.71L15 12.41V20c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1v-7.59L3.29 6.71C3.11 6.53 3 6.28 3 6V4z"/></svg>
                     Filtrer
                 </button>
 
                 <button class="tool-pill" id="archiveBtn" onclick="toggleArchive()">
                     Utleie Arkiv
+                </button>
+            </div>
+
+            <div class="controls-right">
+                <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Galleri">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </button>
+                <button class="view-btn" id="listBtn" onclick="setView('list')" title="Liste">
+                    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                 </button>
             </div>
         </div>
@@ -108,7 +140,6 @@ layout: false
                         <option value="majorstuen">Majorstuen</option>
                     </select>
                 </div>
-
                 <div class="filter-group">
                     <label>Type Lokale</label>
                     <select class="filter-select" id="typeFilter" onchange="applyAllFilters()">
@@ -116,22 +147,17 @@ layout: false
                         <option value="kontor">Kontor</option>
                         <option value="handel">Handel / Restaurant</option>
                         <option value="lager">Lager</option>
-                        <option value="kombinasjon">Kombinasjon</option>
                     </select>
                 </div>
             </div>
-
             <div class="filter-group">
-                <label>
-                    Minimum Areal 
-                    <span id="kvmValue">0 kvm</span>
-                </label>
+                <label>Minimum Areal <span id="kvmValue">0 kvm</span></label>
                 <input type="range" id="kvmSlider" min="0" max="5000" step="50" value="0" oninput="applyAllFilters()">
             </div>
         </div>
     </div>
 
-    <div id="listings" class="listings-container">
+    <div id="listings" class="listings-container grid">
         {% for lokale in collections.lokaler %}
         <a href="{{ lokale.url }}" class="card listing-card {% if lokale.data.status_info.status == 'Utleid' %}is-utleid{% endif %}"
            data-title="{{ lokale.data.title | downcase }} {{ lokale.data.subtitle | downcase }}"
@@ -160,6 +186,23 @@ layout: false
     <script>
         let showArchive = false;
 
+        function setView(mode) {
+            const container = document.getElementById('listings');
+            const gridBtn = document.getElementById('gridBtn');
+            const listBtn = document.getElementById('listBtn');
+            if (mode === 'grid') {
+                container.classList.remove('list');
+                container.classList.add('grid');
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                container.classList.remove('grid');
+                container.classList.add('list');
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+            }
+        }
+
         function toggleFilter() {
             document.getElementById('filterPanel').classList.toggle('open');
             document.getElementById('filterBtn').classList.toggle('active');
@@ -175,7 +218,6 @@ layout: false
                 btn.classList.remove('active');
                 btn.innerText = "Utleie Arkiv";
             }
-            // Kjører alle filtre på nytt hver gang vi bytter modus (Arkiv/Aktive)
             applyAllFilters();
         }
 
@@ -189,8 +231,6 @@ layout: false
             const area = document.getElementById('areaFilter').value.toLowerCase();
             const type = document.getElementById('typeFilter').value.toLowerCase();
             const minKvm = parseInt(document.getElementById('kvmSlider').value);
-            
-            // Dette er motoren: Den velger enten Utleid eller Til leie
             const targetStatus = showArchive ? "Utleid" : "Til leie";
 
             document.getElementById('kvmValue').innerText = formatKVM(minKvm) + " kvm";
@@ -202,11 +242,10 @@ layout: false
                 const cardStatus = card.getAttribute('data-status');
                 const cardKvm = parseInt(card.getAttribute('data-kvm'));
 
-                // Sjekker alle kriterier samtidig
                 const matchesSearch = cardTitle.includes(query);
                 const matchesArea = (area === 'all' || cardArea === area);
                 const matchesType = (type === 'all' || cardType.includes(type));
-                const matchesStatus = (cardStatus === targetStatus); // <--- Her skjer ekskluderingen
+                const matchesStatus = (cardStatus === targetStatus);
                 const matchesKvm = (cardKvm >= minKvm);
 
                 if (matchesSearch && matchesArea && matchesType && matchesStatus && matchesKvm) {
@@ -216,7 +255,6 @@ layout: false
                 }
             });
         }
-
         window.onload = applyAllFilters;
     </script>
 </body>
