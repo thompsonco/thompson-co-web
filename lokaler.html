@@ -32,24 +32,22 @@ layout: false
         .logo { font-family: 'Libre Baskerville', serif; font-size: 2.2rem; color: var(--pink); text-decoration: none; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 0.5rem; }
         .subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; opacity: 0.7; font-weight: 300; }
 
-        /* --- VERKTØYLINJE (Kompakt og stram) --- */
+        /* --- VERKTØYLINJE --- */
         .toolbar-container { max-width: 1400px; margin: 0 auto 1.5rem; padding: 0 5%; }
         
         .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
         
-        /* Visnings-bryter (Mye nettere nå) */
         .view-toggles { display: flex; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 6px; border: 1px solid var(--border); }
         .view-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--white); background: transparent; border: none; border-radius: 4px; cursor: pointer; transition: all 0.3s; opacity: 0.6; }
         .view-btn svg { width: 15px; height: 15px; fill: currentColor; }
         .view-btn:hover { opacity: 1; color: var(--pink); }
         .view-btn.active { background: var(--pink); color: var(--plum); opacity: 1; }
 
-        /* Filter-knapp (Kompakt) */
         .filter-toggle-btn { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--white); padding: 8px 18px; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
         .filter-toggle-btn:hover, .filter-toggle-btn.active { border-color: var(--pink); color: var(--pink); }
         .filter-toggle-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
-        /* --- FILTER PANEL (Krympet padding) --- */
+        /* --- FILTER PANEL --- */
         .filter-panel { display: none; background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; padding: 1.5rem; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 1.5rem; }
         .filter-panel.open { display: flex; animation: slideDown 0.3s ease-out forwards; }
         
@@ -65,10 +63,9 @@ layout: false
 
         /* --- LAYOUT KONTAINER --- */
         .listings-container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; transition: all 0.4s ease; }
-        
         .empty-msg { width: 100%; text-align: center; padding: 4rem; opacity: 0.5; font-style: italic; border: 1px dashed var(--border); display: none; }
 
-        /* KORT-DESIGN (Felles) */
+        /* KORT-DESIGN */
         .card { text-decoration: none; color: var(--white); background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.4); border-color: rgba(209, 163, 184, 0.3); }
         
@@ -93,7 +90,7 @@ layout: false
         .pill.p-green { background: #f0fdf4; color: #3a8a5c; }
         .pill.p-pink { background: #fdf0f4; color: #8a3a52; }
 
-        /* --- VISNING: GRID (Maks 3 i bredden) --- */
+        /* --- VISNING: GRID --- */
         .listings-container.grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
         .grid-view .card { flex-direction: column; }
         .grid-view .image-container { width: 100%; aspect-ratio: 16 / 10; border-bottom: 1px solid var(--border); }
@@ -129,7 +126,6 @@ layout: false
 
     <div class="toolbar-container">
         <div class="toolbar">
-            
             <div class="view-toggles">
                 <button class="view-btn active" id="btnGrid" onclick="setView('grid')">
                     <svg viewBox="0 0 24 24"><path d="M4 4h4v4H4zM10 4h4v4h-4zM16 4h4v4h-4zM4 10h4v4H4zM10 10h4v4h-4zM16 10h4v4h-4zM4 16h4v4H4zM10 16h4v4h-4zM16 16h4v4h-4z"/></svg>
@@ -185,10 +181,10 @@ layout: false
         {% for lokale in collections.lokaler %}
         
         <a href="{{ lokale.url }}" class="card listing-card" 
-           data-search="{{ lokale.data.title | lower }} {{ lokale.data.subtitle | lower }} {{ lokale.data.nokkelinfo.ledig_areal | lower }} {% for pille in lokale.data.piller %}{{ pille.tekst | lower }} {% endfor %} {{ lokale.data.okonomi.estimert_leie | lower }}">
+           data-search="{{ lokale.data.title | downcase }} {{ lokale.data.subtitle | downcase }} {% if lokale.data.nokkelinfo %}{{ lokale.data.nokkelinfo.ledig_areal | downcase }}{% endif %} {% if lokale.data.piller %}{% for pille in lokale.data.piller %}{{ pille.tekst | downcase }} {% endfor %}{% endif %} {% if lokale.data.okonomi %}{{ lokale.data.okonomi.estimert_leie | downcase }}{% endif %}">
             
             <div class="image-container">
-                {% if lokale.data.galleri and lokale.data.galleri.length > 0 %}
+                {% if lokale.data.galleri %}
                     <img src="{{ lokale.data.galleri[0] }}" alt="{{ lokale.data.title }}">
                 {% else %}
                     <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--pink);">Bilde mangler</div>
@@ -202,22 +198,24 @@ layout: false
                 <div class="meta-row">
                     <div class="meta-item">
                         <span>Areal / KVM</span>
-                        <strong>{{ lokale.data.nokkelinfo.ledig_areal | default('På forespørsel') }}</strong>
+                        <strong>{% if lokale.data.nokkelinfo and lokale.data.nokkelinfo.ledig_areal %}{{ lokale.data.nokkelinfo.ledig_areal }}{% else %}På forespørsel{% endif %}</strong>
                     </div>
                     <div class="meta-item">
                         <span>Overtakelse</span>
-                        <strong>{{ lokale.data.nokkelinfo.overtakelse | default('Etter avtale') }}</strong>
+                        <strong>{% if lokale.data.nokkelinfo and lokale.data.nokkelinfo.overtakelse %}{{ lokale.data.nokkelinfo.overtakelse }}{% else %}Etter avtale{% endif %}</strong>
                     </div>
                     <div class="meta-item">
                         <span>Type Lokale</span>
-                        <strong>{% if lokale.data.piller.length > 0 %}{{ lokale.data.piller[0].tekst }}{% else %}Næring{% endif %}</strong>
+                        <strong>{% if lokale.data.piller and lokale.data.piller[0] %}{{ lokale.data.piller[0].tekst }}{% else %}Næring{% endif %}</strong>
                     </div>
                 </div>
 
                 <div class="pill-row">
-                    {% for pille in lokale.data.piller %}
-                    <span class="pill {{ pille.farge }}">{{ pille.tekst }}</span>
-                    {% endfor %}
+                    {% if lokale.data.piller %}
+                        {% for pille in lokale.data.piller %}
+                        <span class="pill {{ pille.farge }}">{{ pille.tekst }}</span>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </a>
@@ -239,7 +237,6 @@ layout: false
     </footer>
 
     <script>
-        // --- BYTT MELLOM GALLERI OG LISTE ---
         function setView(viewType) {
             const container = document.getElementById('listings');
             const btnGrid = document.getElementById('btnGrid');
@@ -258,7 +255,6 @@ layout: false
             }
         }
 
-        // --- ÅPNE/LUKKE FILTERPANELET ---
         function toggleFilter() {
             const panel = document.getElementById('filterPanel');
             const btn = document.getElementById('filterToggleBtn');
@@ -271,16 +267,14 @@ layout: false
             }
         }
 
-        // --- NULLSTILL FILTER ---
         function resetFilters() {
             document.getElementById('filterArea').value = 'all';
             document.getElementById('filterType').value = 'all';
             document.getElementById('filterPrice').value = 'all';
             filterListings();
-            toggleFilter(); // Lukker panelet når filteret er nullstilt
+            toggleFilter(); 
         }
 
-        // --- SMART FILTER LOGIKK ---
         function filterListings() {
             const area = document.getElementById('filterArea').value.toLowerCase();
             const type = document.getElementById('filterType').value.toLowerCase();
@@ -290,7 +284,7 @@ layout: false
             let visibleCount = 0;
 
             cards.forEach(card => {
-                const searchData = card.getAttribute('data-search');
+                const searchData = (card.getAttribute('data-search') || '').toLowerCase();
                 let isMatch = true;
 
                 if (area !== 'all' && !searchData.includes(area)) isMatch = false;
