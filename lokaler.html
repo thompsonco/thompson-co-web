@@ -20,21 +20,14 @@ layout: false
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        body { 
-            background-color: var(--plum); 
-            color: var(--white); 
-            font-family: 'Montserrat', sans-serif; 
-            line-height: 1.6;
-        }
+        body { background-color: var(--plum); color: var(--white); font-family: 'Montserrat', sans-serif; line-height: 1.6; }
 
-        /* --- HEADER --- */
+        /* HEADER & TOOLBAR */
         header { padding: 4rem 5% 1.5rem; text-align: center; }
         .logo { font-family: 'Libre Baskerville', serif; font-size: 2.2rem; color: var(--pink); text-decoration: none; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 0.5rem; }
         .subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; opacity: 0.7; font-weight: 300; }
 
-        /* --- VERKTØYLINJE --- */
         .toolbar-container { max-width: 1400px; margin: 0 auto 1.5rem; padding: 0 5%; }
-        
         .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
         
         .view-toggles { display: flex; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 6px; border: 1px solid var(--border); }
@@ -47,25 +40,31 @@ layout: false
         .filter-toggle-btn:hover, .filter-toggle-btn.active { border-color: var(--pink); color: var(--pink); }
         .filter-toggle-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
-        /* --- FILTER PANEL --- */
-        .filter-panel { display: none; background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; padding: 1.5rem; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 1.5rem; }
+        /* FILTER PANEL MED SLIDER */
+        .filter-panel { display: none; background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; padding: 2rem 1.5rem; flex-wrap: wrap; gap: 20px; align-items: flex-end; margin-bottom: 1.5rem; }
         .filter-panel.open { display: flex; animation: slideDown 0.3s ease-out forwards; }
-        
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 180px; }
-        .filter-group label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pink); font-weight: 600;}
+        .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
+        .filter-group label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pink); font-weight: 600; display: flex; justify-content: space-between;}
+        
         .filter-select { background: var(--plum); color: var(--white); border: 1px solid var(--border); padding: 10px 14px; border-radius: 4px; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; outline: none; cursor: pointer; transition: border-color 0.3s; }
         .filter-select:focus { border-color: var(--pink); }
         
+        /* Slider Styling */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 10px 0; }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: var(--border); border-radius: 3px; border: none; }
+        input[type=range]::-webkit-slider-thumb { border: 2px solid var(--plum); height: 18px; width: 18px; border-radius: 50%; background: var(--pink); cursor: pointer; -webkit-appearance: none; margin-top: -6px; transition: transform 0.2s; }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
         .reset-btn { background: transparent; border: none; color: var(--white); opacity: 0.6; text-decoration: underline; cursor: pointer; font-family: 'Montserrat'; font-size: 0.75rem; padding-bottom: 10px; transition: 0.3s; }
         .reset-btn:hover { color: var(--pink); opacity: 1; }
 
-        /* --- LAYOUT KONTAINER --- */
+        /* LAYOUT KONTAINER & KORT */
         .listings-container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; transition: all 0.4s ease; }
         .empty-msg { width: 100%; text-align: center; padding: 4rem; opacity: 0.5; font-style: italic; border: 1px dashed var(--border); display: none; }
 
-        /* KORT-DESIGN */
         .card { text-decoration: none; color: var(--white); background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.4); border-color: rgba(209, 163, 184, 0.3); }
         
@@ -82,7 +81,6 @@ layout: false
         .meta-item span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
         .meta-item strong { font-size: 0.95rem; font-weight: 600; color: var(--white); margin-top: 2px; }
 
-        /* Piller */
         .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
         .pill { padding: 4px 12px; border-radius: 20px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap; color: #444; border: 1px solid transparent; }
         .pill.p-warm { background: #fdf8f0; color: #8a6a3a; }
@@ -90,20 +88,18 @@ layout: false
         .pill.p-green { background: #f0fdf4; color: #3a8a5c; }
         .pill.p-pink { background: #fdf0f4; color: #8a3a52; }
 
-        /* --- VISNING: GRID --- */
+        /* GRID / LIST */
         .listings-container.grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
         .grid-view .card { flex-direction: column; }
         .grid-view .image-container { width: 100%; aspect-ratio: 16 / 10; border-bottom: 1px solid var(--border); }
         .grid-view .info { padding: 1.5rem; }
 
-        /* --- VISNING: LISTE --- */
         .listings-container.list-view { display: flex; flex-direction: column; gap: 25px; }
         .list-view .card { flex-direction: row; height: 280px; }
         .list-view .image-container { width: 400px; height: 100%; flex-shrink: 0; border-right: 1px solid var(--border); }
         .list-view .info { flex: 1; padding: 2.5rem; }
         .list-view .meta-row { border: none; padding: 0; border-top: 1px solid var(--border); padding-top: 15px; }
 
-        /* Responsivitet */
         @media (max-width: 1100px) {
             .listings-container.grid-view { grid-template-columns: repeat(2, 1fr); gap: 30px; }
             .list-view .card { height: auto; flex-direction: column; }
@@ -147,30 +143,35 @@ layout: false
             <div class="filter-group">
                 <label>Område</label>
                 <select class="filter-select" id="filterArea" onchange="filterListings()">
-                    <option value="all">Vis Alle</option>
-                    <option value="oslo">Oslo</option>
+                    <option value="all">Alle Områder</option>
                     <option value="sentrum">Sentrum</option>
                     <option value="bjørvika">Bjørvika</option>
                     <option value="skøyen">Skøyen</option>
+                    <option value="majorstuen">Majorstuen</option>
+                    <option value="frogner">Frogner</option>
+                    <option value="nydalen">Nydalen</option>
+                    <option value="lysaker">Lysaker</option>
+                    <option value="helsfyr">Helsfyr</option>
+                    <option value="økern">Økern</option>
+                    <option value="groruddalen">Groruddalen</option>
                 </select>
             </div>
 
             <div class="filter-group">
                 <label>Type Lokale</label>
                 <select class="filter-select" id="filterType" onchange="filterListings()">
-                    <option value="all">Vis Alle</option>
+                    <option value="all">Alle Typer</option>
                     <option value="kontor">Kontor</option>
-                    <option value="handel">Handel</option>
                     <option value="servering">Servering</option>
+                    <option value="handel">Handel</option>
+                    <option value="lager">Lager</option>
+                    <option value="logistikk">Logistikk</option>
                 </select>
             </div>
 
-            <div class="filter-group">
-                <label>Prisklasse</label>
-                <select class="filter-select" id="filterPrice" onchange="filterListings()">
-                    <option value="all">Vis Alle</option>
-                    <option value="forespørsel">På forespørsel</option>
-                </select>
+            <div class="filter-group" style="flex: 1.5;">
+                <label><span>Minimum Areal</span> <span id="kvmLabel" style="color: var(--white); font-weight: 400;">0 kvm</span></label>
+                <input type="range" id="filterKvm" min="0" max="15000" step="50" value="0" oninput="updateKvmLabel(); filterListings();">
             </div>
 
             <button class="reset-btn" onclick="resetFilters()">Nullstill filter</button>
@@ -181,7 +182,9 @@ layout: false
         {% for lokale in collections.lokaler %}
         
         <a href="{{ lokale.url }}" class="card listing-card" 
-           data-search="{{ lokale.data.title | downcase }} {{ lokale.data.subtitle | downcase }} {% if lokale.data.nokkelinfo %}{{ lokale.data.nokkelinfo.ledig_areal | downcase }}{% endif %} {% if lokale.data.piller %}{% for pille in lokale.data.piller %}{{ pille.tekst | downcase }} {% endfor %}{% endif %} {% if lokale.data.okonomi %}{{ lokale.data.okonomi.estimert_leie | downcase }}{% endif %}">
+           data-area="{% if lokale.data.beliggenhet and lokale.data.beliggenhet.omrade %}{{ lokale.data.beliggenhet.omrade | downcase }}{% endif %}"
+           data-type="{% if lokale.data.nokkelinfo and lokale.data.nokkelinfo.type_lokale %}{{ lokale.data.nokkelinfo.type_lokale | downcase }}{% endif %}"
+           data-kvm="{% if lokale.data.nokkelinfo and lokale.data.nokkelinfo.kvm_tall %}{{ lokale.data.nokkelinfo.kvm_tall }}{% else %}0{% endif %}">
             
             <div class="image-container">
                 {% if lokale.data.galleri %}
@@ -197,16 +200,16 @@ layout: false
                 
                 <div class="meta-row">
                     <div class="meta-item">
+                        <span>Område</span>
+                        <strong>{% if lokale.data.beliggenhet and lokale.data.beliggenhet.omrade %}{{ lokale.data.beliggenhet.omrade }}{% else %}Oslo{% endif %}</strong>
+                    </div>
+                    <div class="meta-item">
                         <span>Areal / KVM</span>
                         <strong>{% if lokale.data.nokkelinfo and lokale.data.nokkelinfo.ledig_areal %}{{ lokale.data.nokkelinfo.ledig_areal }}{% else %}På forespørsel{% endif %}</strong>
                     </div>
                     <div class="meta-item">
-                        <span>Overtakelse</span>
-                        <strong>{% if lokale.data.nokkelinfo and lokale.data.nokkelinfo.overtakelse %}{{ lokale.data.nokkelinfo.overtakelse }}{% else %}Etter avtale{% endif %}</strong>
-                    </div>
-                    <div class="meta-item">
                         <span>Type Lokale</span>
-                        <strong>{% if lokale.data.piller and lokale.data.piller[0] %}{{ lokale.data.piller[0].tekst }}{% else %}Næring{% endif %}</strong>
+                        <strong>{% if lokale.data.nokkelinfo and lokale.data.nokkelinfo.type_lokale %}{{ lokale.data.nokkelinfo.type_lokale }}{% else %}Næring{% endif %}</strong>
                     </div>
                 </div>
 
@@ -267,10 +270,21 @@ layout: false
             }
         }
 
+        function updateKvmLabel() {
+            const val = parseInt(document.getElementById('filterKvm').value, 10);
+            if (val > 0) {
+                // toLocaleString('no-NO') legger automatisk til norsk tusenskille (mellomrom)
+                document.getElementById('kvmLabel').innerText = val.toLocaleString('no-NO') + " kvm";
+            } else {
+                document.getElementById('kvmLabel').innerText = "0 kvm";
+            }
+        }
+
         function resetFilters() {
             document.getElementById('filterArea').value = 'all';
             document.getElementById('filterType').value = 'all';
-            document.getElementById('filterPrice').value = 'all';
+            document.getElementById('filterKvm').value = '0';
+            updateKvmLabel();
             filterListings();
             toggleFilter(); 
         }
@@ -278,18 +292,25 @@ layout: false
         function filterListings() {
             const area = document.getElementById('filterArea').value.toLowerCase();
             const type = document.getElementById('filterType').value.toLowerCase();
-            const price = document.getElementById('filterPrice').value.toLowerCase();
+            const minKvm = parseInt(document.getElementById('filterKvm').value, 10);
             
             const cards = document.querySelectorAll('.listing-card');
             let visibleCount = 0;
 
             cards.forEach(card => {
-                const searchData = (card.getAttribute('data-search') || '').toLowerCase();
+                // Henter data eksakt fra backoffice-feltene
+                const cardArea = (card.getAttribute('data-area') || '').toLowerCase();
+                const cardType = (card.getAttribute('data-type') || '').toLowerCase();
+                const cardKvm = parseInt(card.getAttribute('data-kvm') || '0', 10);
+
                 let isMatch = true;
 
-                if (area !== 'all' && !searchData.includes(area)) isMatch = false;
-                if (type !== 'all' && !searchData.includes(type)) isMatch = false;
-                if (price !== 'all' && !searchData.includes(price)) isMatch = false;
+                // Sjekker at valgene matcher
+                if (area !== 'all' && cardArea !== area) isMatch = false;
+                if (type !== 'all' && cardType !== type) isMatch = false;
+                
+                // Viser bare kort som har høyere KVM enn slideren
+                if (minKvm > 0 && cardKvm < minKvm) isMatch = false;
 
                 if (isMatch) {
                     card.style.display = 'flex';
