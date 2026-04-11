@@ -40,8 +40,10 @@ collections:
         name: "nokkelinfo"
         widget: "object"
         fields:
+          - { label: "Type Lokale (For filter)", name: "type_lokale", widget: "select", options: ["Kontor", "Servering", "Handel", "Lager", "Logistikk"] }
           - { label: "Om Eiendommen (Tekst)", name: "om_eiendommen", widget: "text" }
-          - { label: "Ledig Areal", name: "ledig_areal", widget: "string" }
+          - { label: "KVM Tall (KUN TALL for slider-filteret, f.eks 1200)", name: "kvm_tall", widget: "number", value_type: "int", default: 0 }
+          - { label: "Ledig Areal (Visningstekst, f.eks '1 200 kvm BTA')", name: "ledig_areal", widget: "string" }
           - { label: "Etasje", name: "etasje_info", widget: "string" }
           - { label: "Overtakelse", name: "overtakelse", widget: "string" }
           - { label: "Standard", name: "standard", widget: "string" }
@@ -65,6 +67,7 @@ collections:
         name: "beliggenhet"
         widget: "object"
         fields:
+          - { label: "Område (Oslo)", name: "omrade", widget: "select", options: ["Sentrum", "Bjørvika", "Skøyen", "Majorstuen", "Frogner", "Nydalen", "Lysaker", "Helsfyr", "Økern", "Groruddalen"] }
           - { label: "Tog / Flytog", name: "tog_fly", widget: "string" }
 
       - label: "FANE 5: Kapasitetsoversikt"
