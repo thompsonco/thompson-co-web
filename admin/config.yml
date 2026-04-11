@@ -19,7 +19,14 @@ collections:
 
       - { label: "Eiendomsnavn (Bestemmer URL)", name: "title", widget: "string" }
       - { label: "Undertittel", name: "subtitle", widget: "string" }
-      
+
+      - label: "Status & Dato"
+        name: "status_info"
+        widget: "object"
+        fields:
+          - { label: "Status", name: "status", widget: "select", options: ["Til leie", "Utleid"], default: "Til leie" }
+          - { label: "Publiseringsdato", name: "pub_dato", widget: "datetime", format: "DD.MM.YYYY", date_format: "DD.MM.YYYY", time_format: false }
+          
       - label: "Bildegalleri"
         name: "galleri"
         widget: "list"
