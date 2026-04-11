@@ -20,76 +20,59 @@ layout: false
         .logo { font-family: 'Libre Baskerville', serif; font-size: 2.2rem; color: var(--pink); text-decoration: none; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 0.5rem; }
         .subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; opacity: 0.7; font-weight: 300; }
 
-        /* --- VERKTØYLINJE --- */
         .toolbar-container { max-width: 1400px; margin: 0 auto 1.5rem; padding: 0 5%; }
         .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
         
         .controls-left { display: flex; align-items: center; gap: 10px; }
         .controls-right { display: flex; align-items: center; gap: 8px; }
         
-        .tool-pill { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--white); padding: 8px 18px; border-radius: 30px; cursor: pointer; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; height: 38px; }
+        .tool-pill { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--white); padding: 8px 18px; border-radius: 30px; cursor: pointer; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; height: 38px; outline: none; }
         .tool-pill:hover, .tool-pill.active { border-color: var(--pink); color: var(--pink); }
         .tool-pill svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
         
-        /* Visnings-ikoner */
-        .view-btn { background: transparent; border: 1px solid var(--border); color: var(--white); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: 0.3s; padding: 0; }
-        .view-btn:hover, .view-btn.active { border-color: var(--pink); color: var(--pink); background: rgba(209, 163, 184, 0.1); }
-        .view-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-        /* Søk-felt */
         .search-pill { padding-right: 15px; cursor: text; }
         .search-pill input { background: transparent; border: none; color: white; outline: none; font-family: 'Montserrat'; font-size: 0.75rem; width: 0; transition: width 0.3s; padding: 0; }
         .search-pill.open input, .search-pill input:not(:placeholder-shown) { width: 120px; margin-left: 8px; }
 
-        /* --- FILTER PANEL --- */
+        .view-btn { background: transparent; border: 1px solid var(--border); color: var(--white); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: 0.3s; padding: 0; outline: none; }
+        .view-btn:hover, .view-btn.active { border-color: var(--pink); color: var(--pink); background: rgba(209, 163, 184, 0.1); }
+        .view-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
         .filter-panel { display: none; background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-top: none; padding: 1.5rem; flex-direction: column; gap: 20px; margin-bottom: 1.5rem; border-radius: 0 0 8px 8px; }
-        .filter-panel.open { display: flex; animation: slideDown 0.3s ease-out forwards; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .filter-panel.open { display: flex; }
         
         .filter-row { display: flex; flex-wrap: wrap; gap: 20px; }
         .filter-group { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 200px; }
         .filter-group label { font-size: 0.7rem; text-transform: uppercase; color: var(--pink); font-weight: 600; display: flex; justify-content: space-between; }
-        .filter-select { background: var(--plum); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 4px; font-size: 0.8rem; outline: none; }
+        .filter-select { background: var(--plum); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 4px; font-size: 0.8rem; outline: none; width: 100%; }
 
         input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: var(--border); border-radius: 2px; }
         input[type="range"]::-webkit-slider-thumb { height: 18px; width: 18px; border-radius: 50%; background: var(--pink); -webkit-appearance: none; margin-top: -7px; }
 
-        /* --- LISTINGS CONTAINER --- */
-        .listings-container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; display: grid; transition: 0.3s; }
-        
-        /* GRID MODE */
+        .listings-container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; display: grid; }
         .listings-container.grid { grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        .grid .card { flex-direction: column; }
-        .grid .image-container { width: 100%; aspect-ratio: 16/10; }
-
-        /* LIST MODE */
         .listings-container.list { grid-template-columns: 1fr; gap: 15px; }
-        .list .card { flex-direction: row; height: 120px; align-items: center; }
-        .list .image-container { width: 180px; height: 100%; flex-shrink: 0; }
-        .list .info { padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex: 1; }
-        .list .info h2 { font-size: 1.1rem; margin-bottom: 0; }
-        .list .location { margin-bottom: 0; font-size: 0.75rem; }
-        .list .pub-date { display: none; }
 
-        /* Generell kort-stil */
         .card { text-decoration: none; color: white; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; transition: 0.4s; position: relative; }
         .card:hover { transform: translateY(-5px); border-color: rgba(209, 163, 184, 0.5); }
         .card.is-utleid { opacity: 0.6; filter: grayscale(0.7); }
         .utleid-overlay { position: absolute; top: 10px; right: 10px; background: var(--plum); color: var(--pink); border: 1px solid var(--pink); padding: 3px 10px; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; z-index: 5; }
+
+        .grid .card { flex-direction: column; }
+        .grid .image-container { width: 100%; aspect-ratio: 16/10; }
+        .list .card { flex-direction: row; height: 120px; align-items: center; }
+        .list .image-container { width: 180px; height: 100%; flex-shrink: 0; }
+        .list .info { padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex: 1; }
+
         .image-container img { width: 100%; height: 100%; object-fit: cover; }
         .info { padding: 1.5rem; }
-        .pub-date { font-size: 0.6rem; opacity: 0.4; text-transform: uppercase; margin-bottom: 5px; display: block; }
         .info h2 { font-family: 'Libre Baskerville'; font-size: 1.4rem; color: var(--pink); margin-bottom: 5px; }
         .info .location { font-size: 0.8rem; opacity: 0.7; }
+        .pub-date { font-size: 0.6rem; opacity: 0.4; text-transform: uppercase; margin-bottom: 5px; display: block; }
 
         @media (max-width: 1000px) { .grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 650px) { 
-            .grid { grid-template-columns: 1fr; }
-            .list .card { height: auto; flex-direction: column; }
-            .list .image-container { width: 100%; aspect-ratio: 16/9; }
-            .list .info { padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 10px; }
-        }
+        @media (max-width: 650px) { .grid { grid-template-columns: 1fr; } .list .card { height: auto; flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -102,10 +85,10 @@ layout: false
     <div class="toolbar-container">
         <div class="toolbar">
             <div class="controls-left">
-                <div class="tool-pill search-pill" onclick="document.getElementById('textSearch').focus(); this.classList.add('open')">
+                <div class="tool-pill search-pill" onclick="toggleSearch(this)">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                     <span>Søk</span>
-                    <input type="text" id="textSearch" placeholder="..." oninput="applyAllFilters()" onblur="if(this.value==='') this.parentElement.classList.remove('open')">
+                    <input type="text" id="textSearch" placeholder="..." oninput="applyAllFilters()" onclick="event.stopPropagation()">
                 </div>
 
                 <button class="tool-pill" id="filterBtn" onclick="toggleFilter()">
@@ -119,11 +102,11 @@ layout: false
             </div>
 
             <div class="controls-right">
-                <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Galleri">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <button class="view-btn active" id="gridBtn" onclick="setView('grid')">
+                    <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                 </button>
-                <button class="view-btn" id="listBtn" onclick="setView('list')" title="Liste">
-                    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <button class="view-btn" id="listBtn" onclick="setView('list')">
+                    <svg viewBox="0 0 24 24" stroke="currentColor"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                 </button>
             </div>
         </div>
@@ -170,10 +153,7 @@ layout: false
                 <div class="utleid-overlay">Utleid</div>
             {% endif %}
 
-            <div class="image-container">
-                <img src="{{ lokale.data.galleri[0] }}" alt="">
-            </div>
-            
+            <div class="image-container"><img src="{{ lokale.data.galleri[0] }}" alt=""></div>
             <div class="info">
                 <span class="pub-date">Publisert: {{ lokale.data.status_info.pub_dato | default: 'Nylig' }}</span>
                 <h2>{{ lokale.data.title }}</h2>
@@ -186,14 +166,72 @@ layout: false
     <script>
         let showArchive = false;
 
+        function toggleSearch(el) {
+            el.classList.add('open');
+            document.getElementById('textSearch').focus();
+        }
+
+        function toggleFilter() {
+            const panel = document.getElementById('filterPanel');
+            const btn = document.getElementById('filterBtn');
+            panel.classList.toggle('open');
+            btn.classList.toggle('active');
+        }
+
+        function toggleArchive() {
+            showArchive = !showArchive;
+            const btn = document.getElementById('archiveBtn');
+            btn.classList.toggle('active');
+            btn.innerText = showArchive ? "X Nullstill" : "Utleie Arkiv";
+            applyAllFilters();
+        }
+
         function setView(mode) {
             const container = document.getElementById('listings');
             const gridBtn = document.getElementById('gridBtn');
             const listBtn = document.getElementById('listBtn');
             if (mode === 'grid') {
-                container.classList.remove('list');
-                container.classList.add('grid');
+                container.className = 'listings-container grid';
                 gridBtn.classList.add('active');
                 listBtn.classList.remove('active');
             } else {
-                container.
+                container.className = 'listings-container list';
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+            }
+        }
+
+        function formatKVM(num) {
+            let formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            return num >= 5000 ? formatted + "+" : formatted;
+        }
+
+        function applyAllFilters() {
+            const query = document.getElementById('textSearch').value.toLowerCase();
+            const area = document.getElementById('areaFilter').value.toLowerCase();
+            const type = document.getElementById('typeFilter').value.toLowerCase();
+            const minKvm = parseInt(document.getElementById('kvmSlider').value);
+            const targetStatus = showArchive ? "Utleid" : "Til leie";
+
+            document.getElementById('kvmValue').innerText = formatKVM(minKvm) + " kvm";
+
+            document.querySelectorAll('.listing-card').forEach(card => {
+                const title = card.getAttribute('data-title') || "";
+                const cArea = card.getAttribute('data-area') || "";
+                const cType = card.getAttribute('data-type') || "";
+                const cStatus = card.getAttribute('data-status') || "";
+                const cKvm = parseInt(card.getAttribute('data-kvm')) || 0;
+
+                const matchesSearch = title.includes(query);
+                const matchesArea = (area === 'all' || cArea === area);
+                const matchesType = (type === 'all' || cType.includes(type));
+                const matchesStatus = (cStatus === targetStatus);
+                const matchesKvm = (cKvm >= minKvm);
+
+                card.style.display = (matchesSearch && matchesArea && matchesType && matchesStatus && matchesKvm) ? 'flex' : 'none';
+            });
+        }
+        window.onload = applyAllFilters;
+    </script>
+</body>
+</html>
