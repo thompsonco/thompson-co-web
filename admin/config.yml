@@ -12,12 +12,12 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - {label: "Eiendomsnavn", name: "title", widget: "string"}
-      - {label: "Kort beskrivelse", name: "subtitle", widget: "string"}
-      - {label: "Hovedbilde", name: "hovedbilde", widget: "image", required: false}
-      - label: "Galleri"
+      - { label: "Eiendomsnavn", name: "title", widget: "string" }
+      - { label: "Undertittel", name: "subtitle", widget: "string" }
+      - label: "Bilder (Første bilde blir hovedbilde)"
         name: "galleri"
         widget: "list"
         summary: "{{fields.bilde}}"
+        minimize_collapsed: true
         field: { label: "Bilde", name: "bilde", widget: "image" }
-      - {label: "Om lokalene", name: "body", widget: "markdown"}
+      - { label: "Om lokalene", name: "body", widget: "markdown" }
