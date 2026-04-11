@@ -3,6 +3,7 @@ url_info: Info
 title: Gardermoen
 subtitle: Harald undertittel
 galleri:
+  - /images/photo-1560179707-f14e90ef3623.avif
   - /images/360_f_286621283_p9ri9qw0tguvchpikxbqdohwfqg9uxoz.jpg
   - /images/360_f_286621283_p9ri9qw0tguvchpikxbqdohwfqg9uxoz.jpg
   - /images/360_f_286621283_p9ri9qw0tguvchpikxbqdohwfqg9uxoz.jpg
