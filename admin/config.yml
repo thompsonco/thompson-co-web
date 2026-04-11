@@ -15,4 +15,9 @@ collections:
       - {label: "Eiendomsnavn", name: "title", widget: "string"}
       - {label: "Kort beskrivelse", name: "subtitle", widget: "string"}
       - {label: "Hovedbilde", name: "hovedbilde", widget: "image", required: false}
+      - label: "Galleri"
+        name: "galleri"
+        widget: "list"
+        summary: "{{fields.bilde}}"
+        field: { label: "Bilde", name: "bilde", widget: "image" }
       - {label: "Om lokalene", name: "body", widget: "markdown"}
