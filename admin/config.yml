@@ -6,9 +6,9 @@ media_folder: "images"
 public_folder: "/images"
 
 collections:
-  - name: "prospekter"
-    label: "Prospekter"
-    folder: "prospekter"
+  - name: "lokaler"
+    label: "lokaler"
+    folder: "lokaler"
     create: true
     slug: "{{slug}}"
     fields:
