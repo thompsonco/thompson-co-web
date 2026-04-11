@@ -7,25 +7,84 @@ public_folder: "/images"
 
 collections:
   - name: "lokaler"
-    label: "lokaler"
+    label: "Lokaler"
     folder: "lokaler"
     create: true
     slug: "{{slug}}"
     fields:
-fields:
       - label: "URL-adressen blir: thompsonco.no/lokaler/[navnet-under] - kan ikke endres etter publisering"
         name: "url_info"
         widget: "hidden"
-        default: "Dette feltet er bare info"
+        default: "Info"
 
-      - { label: "Eiendomsnavn (Bestemmer URL)", name: "title", widget: "string", hint: "Vær forsiktig: URL-en låses til dette navnet når du publiserer første gang." }
+      - { label: "Eiendomsnavn (Bestemmer URL)", name: "title", widget: "string" }
       - { label: "Undertittel", name: "subtitle", widget: "string" }
       
-      - label: "Bilder (Første bilde blir hovedbilde)"
+      - label: "Bildegalleri"
         name: "galleri"
         widget: "list"
         summary: "{{fields.bilde}}"
         minimize_collapsed: true
         field: { label: "Bilde", name: "bilde", widget: "image" }
-        
-      - { label: "Om lokalene", name: "body", widget: "markdown" }
+
+      - label: "Piller (Fremhevet info under tittelen)"
+        name: "piller"
+        widget: "list"
+        summary: "{{fields.tekst}}"
+        minimize_collapsed: true
+        fields:
+          - { label: "Tekst", name: "tekst", widget: "string" }
+          - { label: "Farge", name: "farge", widget: "select", options: ["p-warm", "p-blue", "p-green", "p-pink"] }
+
+      - label: "FANE 1: Nøkkelinfo (Om lokalene)"
+        name: "nokkelinfo"
+        widget: "object"
+        fields:
+          - { label: "Om Eiendommen (Tekst)", name: "om_eiendommen", widget: "text" }
+          - { label: "Ledig Areal", name: "ledig_areal", widget: "string" }
+          - { label: "Etasje", name: "etasje_info", widget: "string" }
+          - { label: "Overtakelse", name: "overtakelse", widget: "string" }
+          - { label: "Standard", name: "standard", widget: "string" }
+
+      - label: "FANE 2: Økonomi"
+        name: "okonomi"
+        widget: "object"
+        fields:
+          - { label: "Estimert Leie", name: "estimert_leie", widget: "string" }
+          - { label: "Felleskostnader", name: "felleskostnader", widget: "string" }
+          - { label: "Leiepris", name: "leiepris", widget: "string" }
+
+      - label: "FANE 3: Fasiliteter (Punktliste)"
+        name: "fasiliteter"
+        widget: "list"
+        summary: "{{fields.punkt}}"
+        minimize_collapsed: true
+        field: { label: "Fasilitet (f.eks 'Bemannet resepsjon')", name: "punkt", widget: "string" }
+
+      - label: "FANE 4: Beliggenhet"
+        name: "beliggenhet"
+        widget: "object"
+        fields:
+          - { label: "Tog / Flytog", name: "tog_fly", widget: "string" }
+
+      - label: "FANE 5: Kapasitetsoversikt"
+        name: "kapasitet"
+        widget: "markdown"
+        hint: "Skriv inn antall plasser. Bruk listefunksjonen for å lage en fin oversikt per etasje."
+
+      - label: "Filer til nedlasting (PDF)"
+        name: "filer"
+        widget: "object"
+        fields:
+          - { label: "Prospekt (PDF)", name: "prospekt_pdf", widget: "file", required: false }
+          - { label: "Plantegninger (PDF)", name: "plantegning_pdf", widget: "file", required: false }
+
+      - label: "Megler / Kontaktperson"
+        name: "megler"
+        widget: "object"
+        fields:
+          - { label: "Bilde", name: "bilde", widget: "image" }
+          - { label: "Navn", name: "navn", widget: "string" }
+          - { label: "Tittel", name: "tittel", widget: "string" }
+          - { label: "Telefonnummer", name: "telefon", widget: "string" }
+          - { label: "E-post", name: "epost", widget: "string" }
