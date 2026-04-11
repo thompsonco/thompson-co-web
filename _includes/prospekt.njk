@@ -517,6 +517,24 @@
             });
         }
 
+// Logikk for "Godta vilkår"-boks og Send-knapp
+        const termsCheckbox = document.getElementById('terms');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if(termsCheckbox && submitBtn) {
+            termsCheckbox.addEventListener('change', function() {
+                if(this.checked) {
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = "1";
+                    submitBtn.style.cursor = "pointer";
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = "0.5";
+                    submitBtn.style.cursor = "not-allowed";
+                }
+            });
+        }
+
     </script>
 </body>
 </html>
