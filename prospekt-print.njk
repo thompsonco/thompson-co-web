@@ -1,0 +1,66 @@
+---
+pagination:
+  data: collections.lokaler
+  size: 1
+  alias: lokale
+permalink: "prospekt-print/{{ lokale.data.title | slugify }}/index.html"
+---
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: A4; margin: 0; }
+        body { font-family: 'Segoe UI', sans-serif; color: #333; margin: 0; padding: 0; -webkit-print-color-adjust: exact; }
+        
+        /* Side 1: Forside */
+        .page { width: 210mm; height: 296mm; padding: 20mm; box-sizing: border-box; page-break-after: always; position: relative; }
+        .header-brand { font-size: 24pt; letter-spacing: 5px; color: #3d1328; margin-bottom: 50mm; text-align: center; font-weight: bold; }
+        .hero-image { width: 100%; height: 120mm; object-fit: cover; border-radius: 2px; }
+        .title-area { margin-top: 20mm; text-align: center; }
+        .title-area h1 { font-size: 32pt; margin: 0; color: #3d1328; }
+        .title-area p { font-size: 16pt; color: #666; margin-top: 10px; }
+        
+        /* Side 2: Detaljer */
+        .info-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20mm; }
+        .info-box { border-bottom: 1px solid #eee; padding: 10px 0; }
+        .info-box strong { display: block; font-size: 9pt; text-transform: uppercase; color: #3d1328; }
+        .description { margin-top: 20mm; line-height: 1.6; font-size: 11pt; }
+        
+        /* Kontaktinfo nederst */
+        .footer-contact { position: absolute; bottom: 20mm; left: 20mm; width: 170mm; border-top: 2px solid #3d1328; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+        
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body onload="window.print()">
+    <div class="page">
+        <div class="header-brand">THOMPSON & CO.</div>
+        {% if lokale.data.galleri %}<img src="{{ lokale.data.galleri[0] }}" class="hero-image">{% endif %}
+        <div class="title-area">
+            <h1>{{ lokale.data.title }}</h1>
+            <p>{{ lokale.data.subtitle }}</p>
+        </div>
+        <div class="footer-contact">
+            <div><strong>{{ lokale.data.megler.navn }}</strong><br>{{ lokale.data.megler.tittel }}</div>
+            <div>{{ lokale.data.megler.epost }}<br>{{ lokale.data.megler.telefon }}</div>
+        </div>
+    </div>
+
+    <div class="page">
+        <h2>Nøkkelinformasjon</h2>
+        <div class="info-section">
+            <div class="info-box"><strong>Areal</strong>{{ lokale.data.nokkelinfo.ledig_areal }}</div>
+            <div class="info-box"><strong>Område</strong>{{ lokale.data.beliggenhet.omrade }}</div>
+            <div class="info-box"><strong>Type</strong>{{ lokale.data.nokkelinfo.type_lokale }}</div>
+            <div class="info-box"><strong>Overtakelse</strong>{{ lokale.data.nokkelinfo.overtakelse }}</div>
+        </div>
+        <div class="description">
+            <h3>Om eiendommen</h3>
+            {{ lokale.data.nokkelinfo.om_eiendommen | nl2br | safe }}
+        </div>
+    </div>
+</body>
+</html>
