@@ -523,15 +523,17 @@
         const submitBtnElement = document.getElementById('submitBtn');
 
         if(visningFormElement && submitBtnElement) {
-            function checkFormValidity() {
+            // Gjør funksjonen tilgjengelig slik at kalenderen kan bruke den
+            window.checkFormValidity = function() {
                 // Henter verdiene fra feltene
                 const navn = visningFormElement.elements['navn'].value.trim();
                 const kontakt = visningFormElement.elements['kontakt'].value.trim();
                 const tid = visningFormElement.elements['tid'].value;
+                const dato = document.getElementById('valgtDato').value; // Sjekker det usynlige dato-feltet
                 const terms = document.getElementById('terms').checked;
 
                 // Sjekker om alt har innhold og boksen er huket av
-                if(navn !== '' && kontakt !== '' && tid !== '' && terms) {
+                if(navn !== '' && kontakt !== '' && tid !== '' && dato !== '' && terms) {
                     submitBtnElement.disabled = false;
                     submitBtnElement.style.opacity = "1";
                     submitBtnElement.style.cursor = "pointer";
@@ -540,11 +542,11 @@
                     submitBtnElement.style.opacity = "0.5";
                     submitBtnElement.style.cursor = "not-allowed";
                 }
-            }
+            };
 
             // Kjører sjekken hver gang kunden skriver noe eller endrer et valg
-            visningFormElement.addEventListener('input', checkFormValidity);
-            visningFormElement.addEventListener('change', checkFormValidity);
+            visningFormElement.addEventListener('input', window.checkFormValidity);
+            visningFormElement.addEventListener('change', window.checkFormValidity);
         }
 
     </script>
