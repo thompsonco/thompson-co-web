@@ -163,8 +163,8 @@ layout: false
            data-title="{{ lokale.data.title | downcase }} {{ lokale.data.subtitle | downcase }}"
            data-area="{{ lokale.data.beliggenhet.omrade | downcase }}"
            data-type="{{ lokale.data.nokkelinfo.type_lokale | downcase }}"
-           data-kvm="{{ lokale.data.nokkelinfo.kvm_tall | default(0) }}"
-           data-status="{{ lokale.data.status_info.status | default('Til leie') }}">
+           data-kvm="{{ lokale.data.nokkelinfo.kvm_tall | default: 0 }}"
+           data-status="{{ lokale.data.status_info.status | default: 'Til leie' }}">
             
             {% if lokale.data.status_info.status == 'Utleid' %}
                 <div class="utleid-overlay">Utleid</div>
@@ -175,7 +175,7 @@ layout: false
             </div>
             
             <div class="info">
-                <span class="pub-date">Publisert: {{ lokale.data.status_info.pub_dato | default('Nylig') }}</span>
+                <span class="pub-date">Publisert: {{ lokale.data.status_info.pub_dato | default: 'Nylig' }}</span>
                 <h2>{{ lokale.data.title }}</h2>
                 <div class="location">{{ lokale.data.subtitle }}</div>
             </div>
@@ -196,66 +196,4 @@ layout: false
                 gridBtn.classList.add('active');
                 listBtn.classList.remove('active');
             } else {
-                container.classList.remove('grid');
-                container.classList.add('list');
-                listBtn.classList.add('active');
-                gridBtn.classList.remove('active');
-            }
-        }
-
-        function toggleFilter() {
-            document.getElementById('filterPanel').classList.toggle('open');
-            document.getElementById('filterBtn').classList.toggle('active');
-        }
-
-        function toggleArchive() {
-            showArchive = !showArchive;
-            const btn = document.getElementById('archiveBtn');
-            if (showArchive) {
-                btn.classList.add('active');
-                btn.innerText = "X Nullstill";
-            } else {
-                btn.classList.remove('active');
-                btn.innerText = "Utleie Arkiv";
-            }
-            applyAllFilters();
-        }
-
-        function formatKVM(num) {
-            let formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-            return num >= 5000 ? formatted + "+" : formatted;
-        }
-
-        function applyAllFilters() {
-            const query = document.getElementById('textSearch').value.toLowerCase();
-            const area = document.getElementById('areaFilter').value.toLowerCase();
-            const type = document.getElementById('typeFilter').value.toLowerCase();
-            const minKvm = parseInt(document.getElementById('kvmSlider').value);
-            const targetStatus = showArchive ? "Utleid" : "Til leie";
-
-            document.getElementById('kvmValue').innerText = formatKVM(minKvm) + " kvm";
-
-            document.querySelectorAll('.listing-card').forEach(card => {
-                const cardTitle = card.getAttribute('data-title');
-                const cardArea = card.getAttribute('data-area');
-                const cardType = card.getAttribute('data-type');
-                const cardStatus = card.getAttribute('data-status');
-                const cardKvm = parseInt(card.getAttribute('data-kvm'));
-
-                const matchesSearch = cardTitle.includes(query);
-                const matchesArea = (area === 'all' || cardArea === area);
-                const matchesType = (type === 'all' || cardType.includes(type));
-                const matchesStatus = (cardStatus === targetStatus);
-                const matchesKvm = (cardKvm >= minKvm);
-
-                if (matchesSearch && matchesArea && matchesType && matchesStatus && matchesKvm) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-        window.onload = applyAllFilters;
-    </script>
-</body>
-</html>
+                container.
