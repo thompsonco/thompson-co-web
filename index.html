@@ -3,221 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THOMPSON & CO | Commercial Real Estate Consulting</title>
+    <title>Thompson & Co</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        /* Grunnleggende oppsett og fargepalett */
-        :root {
-            --plum-dark: #3d1328; /* Dyp plomme/burgunder for bakgrunner */
-            --plum-light: #6b2247; /* Lysere plomme for knapper og detaljer */
-            --text-dark: #333333;
-            --text-light: #ffffff;
-            --bg-light: #fdfafb;
-        }
-
-        * {
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Navigasjon (Header) */
-        header {
-            background-color: var(--plum-dark);
-            color: var(--text-light);
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: #d1a3b8;
-        }
-
-        /* Hovedseksjon (Hero) */
-        .hero {
-            background: linear-gradient(rgba(61, 19, 40, 0.85), rgba(61, 19, 40, 0.95)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover;
-            height: 70vh;
+            height: 100%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background-color: #3d1328;
             text-align: center;
-            color: var(--text-light);
-            padding: 0 20px;
+            font-family: 'Montserrat', sans-serif;
         }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            max-width: 800px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-
-        .btn {
-            background-color: var(--plum-light);
-            color: var(--text-light);
-            padding: 15px 30px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            border: 1px solid var(--plum-light);
-        }
-
-        .btn:hover {
-            background-color: transparent;
-            color: var(--text-light);
-            border: 1px solid var(--text-light);
-        }
-
-        /* Tjenester-seksjonen */
-        .services {
-            padding: 5rem 5%;
-            text-align: center;
-        }
-
-        .services h2 {
+        .logo {
             font-size: 2.5rem;
-            color: var(--plum-dark);
-            margin-bottom: 3rem;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            color: #d1a3b8;
         }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .service-card {
-            background-color: white;
-            padding: 2.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--plum-light);
-            transition: transform 0.3s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .service-card h3 {
-            color: var(--plum-dark);
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-        }
-
-        .service-card p {
-            color: #666;
-        }
-
-        /* Bunntekst (Footer) */
-        footer {
-            background-color: var(--plum-dark);
-            color: var(--text-light);
-            text-align: center;
-            padding: 3rem 5%;
-            border-top: 1px solid #5a1c3b;
-        }
-
-        footer p {
-            margin-top: 1rem;
+        .status {
             font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* Responsivt design for mobil */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #d1a3b8;
+            opacity: 0.8;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
-
-    <header>
-        <div class="logo">THOMPSON & CO.</div>
-        <nav>
-            <ul>
-                <li><a href="#hjem">Hjem</a></li>
-                <li><a href="#tjenester">Tjenester</a></li>
-                <li><a href="#om-oss">Om Oss</a></li>
-                <li><a href="#kontakt">Kontakt</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="hjem" class="hero">
-            <h1>Ekspertise innen Næringseiendom</h1>
-            <p>Vi tilbyr strategisk rådgivning, verdivurdering og investeringsanalyse for næringseiendommer over hele landet. Din visjon, vår kompetanse.</p>
-            <a href="#kontakt" class="btn">Avtal en konsultasjon</a>
-        </section>
-
-        <section id="tjenester" class="services">
-            <h2>Våre Tjenester</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <h3>Investeringsrådgivning</h3>
-                    <p>Vi bistår med identifisering av lønnsomme investeringsobjekter, due diligence og strategisk porteføljeutvikling for investorer og selskaper.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Leietakerrådgivning</h3>
-                    <p>Få eksperthjelp til søk etter nye lokaler, forhandling av leiekontrakter og optimalisering av dine eksisterende leieavtaler.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Verdivurdering og Analyse</h3>
-                    <p>Grundige markedsanalyser og presise verdivurderinger for kontor, handel, logistikk og industrieiendommer.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer id="kontakt">
-        <h2>Kontakt Oss</h2>
-        <br>
-        <p>E-post: kontakt@thompsonco.no | Telefon: +47 22 33 44 55</p>
-        <p>Besøksadresse: Finansgaten 1, 0150 Oslo, Norge</p>
-        <p>&copy; 2026 Thompson & Co. Med enerett.</p>
-    </footer>
-
+    <div class="logo">THOMPSON & CO.</div>
+    <div class="status">Nettsiden er under oppbygging</div>
 </body>
 </html>
