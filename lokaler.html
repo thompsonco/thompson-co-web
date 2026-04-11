@@ -6,13 +6,16 @@ layout: false
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokaler til leie - Thompson & Co</title>
+    <title>Våre Lokaler - Thompson & Co</title>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
             --plum: #3d1328; 
+            --plum-light: #5a1c3b;
             --pink: #d1a3b8; 
             --white: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.15);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,114 +27,96 @@ layout: false
             line-height: 1.6;
         }
 
-        header { 
-            padding: 5rem 5% 3rem; 
-            text-align: center; 
-        }
+        /* --- HEADER --- */
+        header { padding: 4rem 5% 1.5rem; text-align: center; }
+        .logo { font-family: 'Libre Baskerville', serif; font-size: 2.2rem; color: var(--pink); text-decoration: none; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; opacity: 0.7; font-weight: 300; }
 
-        .logo { 
-            font-family: 'Libre Baskerville', serif; 
-            font-size: 2.2rem; 
-            color: var(--pink); 
-            text-decoration: none; 
-            text-transform: uppercase; 
-            letter-spacing: 5px; 
-            display: block;
-            margin-bottom: 1rem;
-        }
+        /* --- VERKTØYLINJE (Kompakt og stram) --- */
+        .toolbar-container { max-width: 1400px; margin: 0 auto 1.5rem; padding: 0 5%; }
+        
+        .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+        
+        /* Visnings-bryter (Mye nettere nå) */
+        .view-toggles { display: flex; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 6px; border: 1px solid var(--border); }
+        .view-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--white); background: transparent; border: none; border-radius: 4px; cursor: pointer; transition: all 0.3s; opacity: 0.6; }
+        .view-btn svg { width: 15px; height: 15px; fill: currentColor; }
+        .view-btn:hover { opacity: 1; color: var(--pink); }
+        .view-btn.active { background: var(--pink); color: var(--plum); opacity: 1; }
 
-        .subtitle {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            opacity: 0.7;
-            font-weight: 300;
-        }
+        /* Filter-knapp (Kompakt) */
+        .filter-toggle-btn { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--white); padding: 8px 18px; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+        .filter-toggle-btn:hover, .filter-toggle-btn.active { border-color: var(--pink); color: var(--pink); }
+        .filter-toggle-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
-        /* Galleri-rutenett */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); 
-            gap: 40px; 
-            padding: 2rem 5% 5rem; 
-            max-width: 1400px; 
-            margin: 0 auto; 
-        }
+        /* --- FILTER PANEL (Krympet padding) --- */
+        .filter-panel { display: none; background: rgba(0,0,0,0.15); border: 1px solid var(--border); border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; padding: 1.5rem; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 1.5rem; }
+        .filter-panel.open { display: flex; animation: slideDown 0.3s ease-out forwards; }
+        
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 180px; }
+        .filter-group label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pink); font-weight: 600;}
+        .filter-select { background: var(--plum); color: var(--white); border: 1px solid var(--border); padding: 10px 14px; border-radius: 4px; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; outline: none; cursor: pointer; transition: border-color 0.3s; }
+        .filter-select:focus { border-color: var(--pink); }
+        
+        .reset-btn { background: transparent; border: none; color: var(--white); opacity: 0.6; text-decoration: underline; cursor: pointer; font-family: 'Montserrat'; font-size: 0.75rem; padding-bottom: 10px; transition: 0.3s; }
+        .reset-btn:hover { color: var(--pink); opacity: 1; }
 
-        .card { 
-            text-decoration: none; 
-            color: var(--white); 
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
-            display: block;
-        }
+        /* --- LAYOUT KONTAINER --- */
+        .listings-container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; transition: all 0.4s ease; }
+        
+        .empty-msg { width: 100%; text-align: center; padding: 4rem; opacity: 0.5; font-style: italic; border: 1px dashed var(--border); display: none; }
 
-        .card:hover { 
-            transform: translateY(-10px); 
-        }
+        /* KORT-DESIGN (Felles) */
+        .card { text-decoration: none; color: var(--white); background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.4); border-color: rgba(209, 163, 184, 0.3); }
+        
+        .image-container { position: relative; overflow: hidden; background: #2a0d1c; }
+        .image-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, opacity 0.3s; }
+        .card:hover .image-container img { transform: scale(1.05); opacity: 0.85; }
 
-        .image-container { 
-            width: 100%; 
-            aspect-ratio: 16 / 10; 
-            overflow: hidden; 
-            border-radius: 4px; 
-            background: #2a0d1c; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            position: relative;
-        }
+        .info { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+        .info h2 { font-size: 1.6rem; color: var(--pink); font-family: 'Libre Baskerville', serif; margin-bottom: 8px; line-height: 1.2; }
+        .info .location { opacity: 0.7; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; }
+        
+        .meta-row { display: flex; flex-wrap: wrap; gap: 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 15px 0; margin-bottom: 1.5rem; }
+        .meta-item { display: flex; flex-direction: column; }
+        .meta-item span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+        .meta-item strong { font-size: 0.95rem; font-weight: 600; color: var(--white); margin-top: 2px; }
 
-        .image-container img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            transition: transform 0.6s ease, opacity 0.3s; 
-        }
+        /* Piller */
+        .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pill { padding: 4px 12px; border-radius: 20px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap; color: #444; border: 1px solid transparent; }
+        .pill.p-warm { background: #fdf8f0; color: #8a6a3a; }
+        .pill.p-blue { background: #f0f4fd; color: #3a5c8a; }
+        .pill.p-green { background: #f0fdf4; color: #3a8a5c; }
+        .pill.p-pink { background: #fdf0f4; color: #8a3a52; }
 
-        .card:hover img { 
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
+        /* --- VISNING: GRID (Maks 3 i bredden) --- */
+        .listings-container.grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .grid-view .card { flex-direction: column; }
+        .grid-view .image-container { width: 100%; aspect-ratio: 16 / 10; border-bottom: 1px solid var(--border); }
+        .grid-view .info { padding: 1.5rem; }
 
-        .info { 
-            padding: 1.5rem 0; 
-        }
+        /* --- VISNING: LISTE --- */
+        .listings-container.list-view { display: flex; flex-direction: column; gap: 25px; }
+        .list-view .card { flex-direction: row; height: 280px; }
+        .list-view .image-container { width: 400px; height: 100%; flex-shrink: 0; border-right: 1px solid var(--border); }
+        .list-view .info { flex: 1; padding: 2.5rem; }
+        .list-view .meta-row { border: none; padding: 0; border-top: 1px solid var(--border); padding-top: 15px; }
 
-        .info h2 { 
-            margin: 0; 
-            font-size: 1.5rem; 
-            color: var(--pink); 
-            font-family: 'Libre Baskerville', serif; 
-            letter-spacing: 1px;
+        /* Responsivitet */
+        @media (max-width: 1100px) {
+            .listings-container.grid-view { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+            .list-view .card { height: auto; flex-direction: column; }
+            .list-view .image-container { width: 100%; aspect-ratio: 16/9; }
         }
-
-        .info p { 
-            margin: 8px 0 0; 
-            opacity: 0.6; 
-            font-size: 0.8rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            font-weight: 400;
-        }
-
-        .empty-msg { 
-            grid-column: 1 / -1;
-            text-align: center; 
-            padding: 5rem; 
-            opacity: 0.4; 
-            font-style: italic; 
-            border: 1px dashed rgba(255,255,255,0.1);
-        }
-
-        footer {
-            text-align: center;
-            padding: 4rem;
-            font-size: 0.8rem;
-            opacity: 0.5;
-            letter-spacing: 1px;
-        }
-
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; }
-            .logo { font-size: 1.6rem; }
+        @media (max-width: 768px) {
+            .toolbar { flex-direction: column-reverse; align-items: stretch; border-bottom: none; }
+            .view-toggles { justify-content: center; }
+            .filter-toggle-btn { justify-content: center; }
+            .listings-container.grid-view { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -142,9 +127,66 @@ layout: false
         <div class="subtitle">Eksklusive Næringseiendommer</div>
     </header>
 
-    <div class="grid">
+    <div class="toolbar-container">
+        <div class="toolbar">
+            
+            <div class="view-toggles">
+                <button class="view-btn active" id="btnGrid" onclick="setView('grid')">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h4v4H4zM10 4h4v4h-4zM16 4h4v4h-4zM4 10h4v4H4zM10 10h4v4h-4zM16 10h4v4h-4zM4 16h4v4H4zM10 16h4v4h-4zM16 16h4v4h-4z"/></svg>
+                    Gallerivisning
+                </button>
+                <button class="view-btn" id="btnList" onclick="setView('list')">
+                    <svg viewBox="0 0 24 24"><path d="M4 6h2v2H4zM10 6h10v2H10zM4 11h2v2H4zM10 11h10v2H10zM4 16h2v2H4zM10 16h10v2H10z"/></svg>
+                    Listevisning
+                </button>
+            </div>
+
+            <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilter()">
+                <svg viewBox="0 0 24 24"><path d="M3 4c0-.55.45-1 1-1h16c.55 0 1 .45 1 1v2c0 .28-.11.53-.29.71L15 12.41V20c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1v-7.59L3.29 6.71C3.11 6.53 3 6.28 3 6V4z"/></svg>
+                Filtrer Søk
+            </button>
+        </div>
+
+        <div class="filter-panel" id="filterPanel">
+            <div class="filter-group">
+                <label>Område</label>
+                <select class="filter-select" id="filterArea" onchange="filterListings()">
+                    <option value="all">Vis Alle</option>
+                    <option value="oslo">Oslo</option>
+                    <option value="sentrum">Sentrum</option>
+                    <option value="bjørvika">Bjørvika</option>
+                    <option value="skøyen">Skøyen</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Type Lokale</label>
+                <select class="filter-select" id="filterType" onchange="filterListings()">
+                    <option value="all">Vis Alle</option>
+                    <option value="kontor">Kontor</option>
+                    <option value="handel">Handel</option>
+                    <option value="servering">Servering</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Prisklasse</label>
+                <select class="filter-select" id="filterPrice" onchange="filterListings()">
+                    <option value="all">Vis Alle</option>
+                    <option value="forespørsel">På forespørsel</option>
+                </select>
+            </div>
+
+            <button class="reset-btn" onclick="resetFilters()">Nullstill filter</button>
+        </div>
+    </div>
+
+    <div id="listings" class="listings-container grid-view">
         {% for lokale in collections.lokaler %}
-        <a href="{{ lokale.url }}" class="card">
+        
+        <a href="{{ lokale.url }}" class="card listing-card" 
+           data-search="{{ lokale.data.title | lower }} {{ lokale.data.subtitle | lower }} {{ lokale.data.nokkelinfo.ledig_areal | lower }} {% for pille in lokale.data.piller %}{{ pille.tekst | lower }} {% endfor %} {{ lokale.data.okonomi.estimert_leie | lower }}">
+            
             <div class="image-container">
                 {% if lokale.data.galleri and lokale.data.galleri.length > 0 %}
                     <img src="{{ lokale.data.galleri[0] }}" alt="{{ lokale.data.title }}">
@@ -152,20 +194,124 @@ layout: false
                     <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--pink);">Bilde mangler</div>
                 {% endif %}
             </div>
+            
             <div class="info">
                 <h2>{{ lokale.data.title }}</h2>
-                <p>{{ lokale.data.subtitle }}</p>
+                <div class="location">{{ lokale.data.subtitle }}</div>
+                
+                <div class="meta-row">
+                    <div class="meta-item">
+                        <span>Areal / KVM</span>
+                        <strong>{{ lokale.data.nokkelinfo.ledig_areal | default('På forespørsel') }}</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>Overtakelse</span>
+                        <strong>{{ lokale.data.nokkelinfo.overtakelse | default('Etter avtale') }}</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>Type Lokale</span>
+                        <strong>{% if lokale.data.piller.length > 0 %}{{ lokale.data.piller[0].tekst }}{% else %}Næring{% endif %}</strong>
+                    </div>
+                </div>
+
+                <div class="pill-row">
+                    {% for pille in lokale.data.piller %}
+                    <span class="pill {{ pille.farge }}">{{ pille.tekst }}</span>
+                    {% endfor %}
+                </div>
             </div>
         </a>
-        {% else %}
-        <div class="empty-msg">Ingen aktive lokaler i porteføljen for øyeblikket.</div>
         {% endfor %}
+
+        <div id="noResults" class="empty-msg">
+            Ingen lokaler matcher søket. Trykk "Nullstill filter" for å se alle.
+        </div>
+        
+        {% if collections.lokaler.length == 0 %}
+        <div class="empty-msg" style="display: block;">
+            Ingen aktive lokaler i porteføljen for øyeblikket.
+        </div>
+        {% endif %}
     </div>
 
-    <footer>
+    <footer style="text-align: center; padding: 4rem; font-size: 0.8rem; opacity: 0.5; letter-spacing: 1px; border-top: 1px solid var(--border); margin-top: 4rem;">
         &copy; 2026 THOMPSON & CO. EIENDOMSUTVIKLING
-        
     </footer>
 
+    <script>
+        // --- BYTT MELLOM GALLERI OG LISTE ---
+        function setView(viewType) {
+            const container = document.getElementById('listings');
+            const btnGrid = document.getElementById('btnGrid');
+            const btnList = document.getElementById('btnList');
+
+            if(viewType === 'grid') {
+                container.classList.remove('list-view');
+                container.classList.add('grid-view');
+                btnGrid.classList.add('active');
+                btnList.classList.remove('active');
+            } else {
+                container.classList.remove('grid-view');
+                container.classList.add('list-view');
+                btnList.classList.add('active');
+                btnGrid.classList.remove('active');
+            }
+        }
+
+        // --- ÅPNE/LUKKE FILTERPANELET ---
+        function toggleFilter() {
+            const panel = document.getElementById('filterPanel');
+            const btn = document.getElementById('filterToggleBtn');
+            if (panel.classList.contains('open')) {
+                panel.classList.remove('open');
+                btn.classList.remove('active');
+            } else {
+                panel.classList.add('open');
+                btn.classList.add('active');
+            }
+        }
+
+        // --- NULLSTILL FILTER ---
+        function resetFilters() {
+            document.getElementById('filterArea').value = 'all';
+            document.getElementById('filterType').value = 'all';
+            document.getElementById('filterPrice').value = 'all';
+            filterListings();
+            toggleFilter(); // Lukker panelet når filteret er nullstilt
+        }
+
+        // --- SMART FILTER LOGIKK ---
+        function filterListings() {
+            const area = document.getElementById('filterArea').value.toLowerCase();
+            const type = document.getElementById('filterType').value.toLowerCase();
+            const price = document.getElementById('filterPrice').value.toLowerCase();
+            
+            const cards = document.querySelectorAll('.listing-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const searchData = card.getAttribute('data-search');
+                let isMatch = true;
+
+                if (area !== 'all' && !searchData.includes(area)) isMatch = false;
+                if (type !== 'all' && !searchData.includes(type)) isMatch = false;
+                if (price !== 'all' && !searchData.includes(price)) isMatch = false;
+
+                if (isMatch) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const noResults = document.getElementById('noResults');
+            if (visibleCount === 0 && cards.length > 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
