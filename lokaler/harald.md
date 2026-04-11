@@ -3,8 +3,9 @@ url_info: Info
 title: Harald
 subtitle: Harald undertittel
 galleri:
-  - /images/2.avif
-  - /images/1.avif
+  - /images/360_f_286621283_p9ri9qw0tguvchpikxbqdohwfqg9uxoz.jpg
+  - /images/360_f_286621283_p9ri9qw0tguvchpikxbqdohwfqg9uxoz.jpg
+  - /images/360_f_286621283_p9ri9qw0tguvchpikxbqdohwfqg9uxoz.jpg
 piller:
   - farge: p-blue
     tekst: Kontor
