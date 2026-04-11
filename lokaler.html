@@ -77,9 +77,9 @@ layout: false
         .meta-item span { font-size: 0.6rem; text-transform: uppercase; opacity: 0.5; display: block; }
         .meta-item strong { font-size: 0.85rem; color: white; }
 
-        /* PILLER / FASILITETER */
-        .pills-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-        .pill { font-size: 0.65rem; padding: 4px 12px; border-radius: 20px; background: rgba(209, 163, 184, 0.1); color: var(--pink); border: 1px solid rgba(209, 163, 184, 0.3); font-weight: 600; text-transform: uppercase; }
+        /* PILLER (50% mindre) */
+        .pills-container { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; }
+        .pill { font-size: 0.5rem; padding: 2px 8px; border-radius: 15px; background: rgba(209, 163, 184, 0.1); color: var(--pink); border: 1px solid rgba(209, 163, 184, 0.2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
         @media (max-width: 1000px) { .grid { grid-template-columns: 1fr 1fr; } .list .card { flex-direction: column; } .list .image-container { width: 100%; aspect-ratio: 16/9; } }
         @media (max-width: 650px) { .grid { grid-template-columns: 1fr; } }
@@ -149,7 +149,8 @@ layout: false
     </div>
 
     <div id="listings" class="listings-container grid">
-        {% for lokale in collections.lokaler %}
+        {% assign sorterte_lokaler = collections.lokaler | sort: "data.status_info.pub_dato" | reverse %}
+        {% for lokale in sorterte_lokaler %}
         <a href="{{ lokale.url }}" class="card listing-card {% if lokale.data.status_info.status == 'Utleid' %}is-utleid{% endif %}"
            data-searchable="{{ lokale.data.title | downcase }} {{ lokale.data.subtitle | downcase }} {{ lokale.data.beliggenhet.omrade | downcase }} {{ lokale.data.nokkelinfo.type_lokale | downcase }}"
            data-area="{{ lokale.data.beliggenhet.omrade | downcase }}"
