@@ -339,8 +339,10 @@
                 </div>
             </div>
             
-            <form class="simple-form" name="visning" method="POST" data-netlify="true"
+<form class="simple-form" id="visningForm" name="visning" method="POST" data-netlify="true">
+                <input type="hidden" name="form-name" value="visning" />
                 <input type="hidden" name="eiendom" value="{{ title }}">
+                
                 <input type="text" name="navn" placeholder="Ditt fulle navn" required>
                 <div class="time-row">
                     <input type="text" name="kontakt" placeholder="Telefon eller E-post" required style="flex: 2;">
