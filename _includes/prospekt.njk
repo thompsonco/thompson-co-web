@@ -485,6 +485,38 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
             }, 1000);
         }
+
+// Send Netlify-skjema i bakgrunnen for å unngå 404-feil
+        const visningForm = document.getElementById('visningForm');
+        if(visningForm) {
+            visningForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Stopper siden fra å laste på nytt (fikser 404-feilen)
+                
+                const formData = new FormData(visningForm);
+                
+                fetch('/', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(formData).toString()
+                })
+                .then(() => {
+                    // Lukk vinduet
+                    closeModal('bookingModal');
+                    // Vis en grønn bekreftelse (bruker kopier-funksjonen vi allerede har laget)
+                    const toast = document.getElementById("copyToast");
+                    toast.innerText = "Takk! Forespørsel er sendt.";
+                    toast.className = "toast show";
+                    setTimeout(function(){ 
+                        toast.className = toast.className.replace("show", ""); 
+                        toast.innerText = "Kopiert!"; // Nullstiller teksten
+                    }, 3000);
+                    // Tømmer skjemaet
+                    visningForm.reset();
+                })
+                .catch((error) => alert('Beklager, det oppstod en feil: ' + error));
+            });
+        }
+
     </script>
 </body>
 </html>
