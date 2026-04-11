@@ -12,12 +12,20 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Eiendomsnavn", name: "title", widget: "string" }
+fields:
+      - label: "URL-adressen blir: thompsonco.no/lokaler/[navnet-under] - kan ikke endres etter publisering"
+        name: "url_info"
+        widget: "hidden"
+        default: "Dette feltet er bare info"
+
+      - { label: "Eiendomsnavn (Bestemmer URL)", name: "title", widget: "string", hint: "Vær forsiktig: URL-en låses til dette navnet når du publiserer første gang." }
       - { label: "Undertittel", name: "subtitle", widget: "string" }
+      
       - label: "Bilder (Første bilde blir hovedbilde)"
         name: "galleri"
         widget: "list"
         summary: "{{fields.bilde}}"
         minimize_collapsed: true
         field: { label: "Bilde", name: "bilde", widget: "image" }
+        
       - { label: "Om lokalene", name: "body", widget: "markdown" }
