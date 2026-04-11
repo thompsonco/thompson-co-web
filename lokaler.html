@@ -1,0 +1,170 @@
+---
+layout: false
+---
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokaler til leie - Thompson & Co</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --plum: #3d1328; 
+            --pink: #d1a3b8; 
+            --white: #ffffff;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--plum); 
+            color: var(--white); 
+            font-family: 'Montserrat', sans-serif; 
+            line-height: 1.6;
+        }
+
+        header { 
+            padding: 5rem 5% 3rem; 
+            text-align: center; 
+        }
+
+        .logo { 
+            font-family: 'Libre Baskerville', serif; 
+            font-size: 2.2rem; 
+            color: var(--pink); 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            letter-spacing: 5px; 
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        /* Galleri-rutenett */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); 
+            gap: 40px; 
+            padding: 2rem 5% 5rem; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+        }
+
+        .card { 
+            text-decoration: none; 
+            color: var(--white); 
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            display: block;
+        }
+
+        .card:hover { 
+            transform: translateY(-10px); 
+        }
+
+        .image-container { 
+            width: 100%; 
+            aspect-ratio: 16 / 10; 
+            overflow: hidden; 
+            border-radius: 4px; 
+            background: #2a0d1c; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .image-container img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.6s ease, opacity 0.3s; 
+        }
+
+        .card:hover img { 
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .info { 
+            padding: 1.5rem 0; 
+        }
+
+        .info h2 { 
+            margin: 0; 
+            font-size: 1.5rem; 
+            color: var(--pink); 
+            font-family: 'Libre Baskerville', serif; 
+            letter-spacing: 1px;
+        }
+
+        .info p { 
+            margin: 8px 0 0; 
+            opacity: 0.6; 
+            font-size: 0.8rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-weight: 400;
+        }
+
+        .empty-msg { 
+            grid-column: 1 / -1;
+            text-align: center; 
+            padding: 5rem; 
+            opacity: 0.4; 
+            font-style: italic; 
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+            .logo { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">Thompson & Co.</a>
+        <div class="subtitle">Eksklusive Næringseiendommer</div>
+    </header>
+
+    <div class="grid">
+        {% for lokale in collections.lokaler %}
+        <a href="{{ lokale.url }}" class="card">
+            <div class="image-container">
+                {% if lokale.data.galleri and lokale.data.galleri.length > 0 %}
+                    <img src="{{ lokale.data.galleri[0] }}" alt="{{ lokale.data.title }}">
+                {% else %}
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--pink);">Bilde mangler</div>
+                {% endif %}
+            </div>
+            <div class="info">
+                <h2>{{ lokale.data.title }}</h2>
+                <p>{{ lokale.data.subtitle }}</p>
+            </div>
+        </a>
+        {% else %}
+        <div class="empty-msg">Ingen aktive lokaler i porteføljen for øyeblikket.</div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        &copy; 2026 THOMPSON & CO. EIENDOMSUTVIKLING
+    </footer>
+
+</body>
+</html>
