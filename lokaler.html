@@ -33,7 +33,7 @@ layout: false
         
         .search-pill { padding-right: 15px; cursor: text; }
         .search-pill input { background: transparent; border: none; color: white; outline: none; font-family: 'Montserrat'; font-size: 0.75rem; width: 0; transition: width 0.3s; padding: 0; }
-        .search-pill.open input, .search-pill input:not(:placeholder-shown) { width: 120px; margin-left: 8px; }
+        .search-pill.open input, .search-pill input:not(:placeholder-shown) { width: 1400px; max-width: 150px; margin-left: 8px; }
 
         .view-btn { background: transparent; border: 1px solid var(--border); color: var(--white); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: 0.3s; }
         .view-btn:hover, .view-btn.active { border-color: var(--pink); color: var(--pink); background: rgba(209, 163, 184, 0.1); }
@@ -59,14 +59,12 @@ layout: false
         .card { text-decoration: none; color: white; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; transition: 0.4s; position: relative; }
         .card:hover { transform: translateY(-5px); border-color: rgba(209, 163, 184, 0.5); }
         
-        /* GRID STIL */
         .grid .card { flex-direction: column; }
         .grid .image-container { width: 100%; aspect-ratio: 16/10; }
         .grid .info { padding: 1.5rem; }
 
-        /* LISTE STIL */
-        .list .card { flex-direction: row; height: 200px; }
-        .list .image-container { width: 300px; height: 100%; flex-shrink: 0; }
+        .list .card { flex-direction: row; height: auto; min-height: 220px; }
+        .list .image-container { width: 350px; height: 100%; flex-shrink: 0; }
         .list .info { padding: 2rem; flex: 1; display: flex; flex-direction: column; justify-content: center; }
 
         .image-container img { width: 100%; height: 100%; object-fit: cover; }
@@ -75,12 +73,15 @@ layout: false
         .info h2 { font-family: 'Libre Baskerville'; font-size: 1.4rem; color: var(--pink); margin-bottom: 5px; }
         .info .subtitle-text { font-size: 0.85rem; opacity: 0.7; margin-bottom: 15px; }
 
-        /* NØKKELINFO PÅ KORTET */
-        .meta-row { display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 15px; margin-top: 5px; }
+        .meta-row { display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 15px; margin-top: 5px; margin-bottom: 15px; }
         .meta-item span { font-size: 0.6rem; text-transform: uppercase; opacity: 0.5; display: block; }
         .meta-item strong { font-size: 0.85rem; color: white; }
 
-        @media (max-width: 1000px) { .grid { grid-template-columns: 1fr 1fr; } .list .card { height: auto; flex-direction: column; } .list .image-container { width: 100%; aspect-ratio: 16/9; } }
+        /* PILLER / FASILITETER */
+        .pills-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+        .pill { font-size: 0.65rem; padding: 4px 12px; border-radius: 20px; background: rgba(209, 163, 184, 0.1); color: var(--pink); border: 1px solid rgba(209, 163, 184, 0.3); font-weight: 600; text-transform: uppercase; }
+
+        @media (max-width: 1000px) { .grid { grid-template-columns: 1fr 1fr; } .list .card { flex-direction: column; } .list .image-container { width: 100%; aspect-ratio: 16/9; } }
         @media (max-width: 650px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -150,7 +151,7 @@ layout: false
     <div id="listings" class="listings-container grid">
         {% for lokale in collections.lokaler %}
         <a href="{{ lokale.url }}" class="card listing-card {% if lokale.data.status_info.status == 'Utleid' %}is-utleid{% endif %}"
-           data-title="{{ lokale.data.title | downcase }} {{ lokale.data.subtitle | downcase }}"
+           data-searchable="{{ lokale.data.title | downcase }} {{ lokale.data.subtitle | downcase }} {{ lokale.data.beliggenhet.omrade | downcase }} {{ lokale.data.nokkelinfo.type_lokale | downcase }}"
            data-area="{{ lokale.data.beliggenhet.omrade | downcase }}"
            data-type="{{ lokale.data.nokkelinfo.type_lokale | downcase }}"
            data-kvm="{{ lokale.data.nokkelinfo.kvm_tall | default: 0 }}"
@@ -170,6 +171,12 @@ layout: false
                     <div class="meta-item"><span>Område</span><strong>{{ lokale.data.beliggenhet.omrade }}</strong></div>
                     <div class="meta-item"><span>Areal</span><strong>{{ lokale.data.nokkelinfo.ledig_areal }}</strong></div>
                     <div class="meta-item"><span>Type</span><strong>{{ lokale.data.nokkelinfo.type_lokale }}</strong></div>
+                </div>
+
+                <div class="pills-container">
+                    {% for fasilitet in lokale.data.fasiliteter %}
+                        <span class="pill">{{ fasilitet }}</span>
+                    {% endfor %}
                 </div>
             </div>
         </a>
@@ -222,13 +229,13 @@ layout: false
             document.getElementById('kvmValue').innerText = formatKVM(minKvm) + " kvm";
 
             document.querySelectorAll('.listing-card').forEach(card => {
-                const title = card.getAttribute('data-title') || "";
+                const searchData = card.getAttribute('data-searchable') || "";
                 const cArea = card.getAttribute('data-area') || "";
                 const cType = card.getAttribute('data-type') || "";
                 const cStatus = card.getAttribute('data-status') || "";
                 const cKvm = parseInt(card.getAttribute('data-kvm')) || 0;
 
-                const matchesSearch = title.includes(query);
+                const matchesSearch = searchData.includes(query);
                 const matchesArea = (area === 'all' || cArea === area);
                 const matchesType = (type === 'all' || cType.includes(type));
                 const matchesStatus = (cStatus === targetStatus);
