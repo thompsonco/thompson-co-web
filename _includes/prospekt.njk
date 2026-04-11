@@ -339,7 +339,7 @@
                 </div>
             </div>
             
-<form class="simple-form" id="visningForm" name="visning" method="POST" data-netlify="true">
+            <form class="simple-form" id="visningForm" name="visning" method="POST" data-netlify="true">
                 <input type="hidden" name="form-name" value="visning" />
                 <input type="hidden" name="eiendom" value="{{ title }}">
                 
@@ -455,13 +455,87 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeModalOnBgClick(e, id) { if(e.target.id === id) closeModal(id); }
-        function selectDay(element) {
-            if(element.classList.contains('disabled')) return;
-            document.querySelectorAll('.cal-grid .day').forEach(d => d.classList.remove('selected'));
-            element.classList.add('selected');
+
+        // --- SKJEMA, KALENDER OG VALIDERING ---
+        
+        // 1. Sjekker om alt er fylt ut
+        function checkFormValidity() {
+            const form = document.getElementById('visningForm');
+            const btn = document.getElementById('submitBtn');
+            if(!form || !btn) return;
+
+            const navn = form.querySelector('[name="navn"]').value.trim();
+            const kontakt = form.querySelector('[name="kontakt"]').value.trim();
+            const tid = form.querySelector('[name="tid"]').value;
+            const dato = document.getElementById('valgtDato').value;
+            const terms = document.getElementById('terms').checked;
+
+            // Lås opp hvis alt har en verdi, ellers lås igjen
+            if (navn !== '' && kontakt !== '' && tid !== '' && dato !== '' && terms) {
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+                btn.style.cursor = "not-allowed";
+            }
         }
 
-        // AI Chat
+        // 2. Kalenderklikk
+        function selectDay(element) {
+            if(element.classList.contains('disabled')) return;
+            
+            // Fjerner farge fra gamle valg og setter på ny
+            document.querySelectorAll('.cal-grid .day').forEach(d => d.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            // Lagrer datoen i det usynlige feltet
+            document.getElementById('valgtDato').value = element.innerText + ". Mai 2026";
+            
+            // Sjekk om skjemaet er klart til å sendes
+            checkFormValidity();
+        }
+
+        // 3. Koble validering til skrivefelter og knapper
+        const formEl = document.getElementById('visningForm');
+        if(formEl) {
+            // Vi legger funksjonen på window-objektet slik at kalenderen kan nå den
+            window.checkFormValidity = checkFormValidity;
+            
+            formEl.addEventListener('input', checkFormValidity);
+            formEl.addEventListener('change', checkFormValidity);
+            
+            // Send i bakgrunnen uten reload (hindrer 404)
+            formEl.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(formEl);
+                fetch('/', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(formData).toString()
+                })
+                .then(() => {
+                    closeModal('bookingModal');
+                    const toast = document.getElementById("copyToast");
+                    toast.innerText = "Takk! Forespørsel er sendt.";
+                    toast.className = "toast show";
+                    setTimeout(function(){ 
+                        toast.className = toast.className.replace("show", ""); 
+                        toast.innerText = "Kopiert!"; 
+                    }, 4000);
+                    
+                    // Nullstill alt etter vellykket sending
+                    formEl.reset();
+                    document.getElementById('valgtDato').value = "";
+                    document.querySelectorAll('.cal-grid .day').forEach(d => d.classList.remove('selected'));
+                    checkFormValidity();
+                })
+                .catch((error) => alert('Beklager, det oppstod en feil: ' + error));
+            });
+        }
+
+        // --- AI CHAT ---
         function toggleChat() {
             const chat = document.getElementById('aiChat');
             const backdrop = document.getElementById('chatBackdrop');
@@ -487,68 +561,6 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
             }, 1000);
         }
-
-// Send Netlify-skjema i bakgrunnen for å unngå 404-feil
-        const visningForm = document.getElementById('visningForm');
-        if(visningForm) {
-            visningForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Stopper siden fra å laste på nytt (fikser 404-feilen)
-                
-                const formData = new FormData(visningForm);
-                
-                fetch('/', {
-                    method: 'POST',
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams(formData).toString()
-                })
-                .then(() => {
-                    // Lukk vinduet
-                    closeModal('bookingModal');
-                    // Vis en grønn bekreftelse (bruker kopier-funksjonen vi allerede har laget)
-                    const toast = document.getElementById("copyToast");
-                    toast.innerText = "Takk! Forespørsel er sendt.";
-                    toast.className = "toast show";
-                    setTimeout(function(){ 
-                        toast.className = toast.className.replace("show", ""); 
-                        toast.innerText = "Kopiert!"; // Nullstiller teksten
-                    }, 3000);
-                    // Tømmer skjemaet
-                    visningForm.reset();
-                })
-                .catch((error) => alert('Beklager, det oppstod en feil: ' + error));
-            });
-        }
-// Logikk for Send-knapp: Krever at ALLE felter er fylt ut
-        const visningFormElement = document.getElementById('visningForm');
-        const submitBtnElement = document.getElementById('submitBtn');
-
-        if(visningFormElement && submitBtnElement) {
-            // Gjør funksjonen tilgjengelig slik at kalenderen kan bruke den
-            window.checkFormValidity = function() {
-                // Henter verdiene fra feltene
-                const navn = visningFormElement.elements['navn'].value.trim();
-                const kontakt = visningFormElement.elements['kontakt'].value.trim();
-                const tid = visningFormElement.elements['tid'].value;
-                const dato = document.getElementById('valgtDato').value; // Sjekker det usynlige dato-feltet
-                const terms = document.getElementById('terms').checked;
-
-                // Sjekker om alt har innhold og boksen er huket av
-                if(navn !== '' && kontakt !== '' && tid !== '' && dato !== '' && terms) {
-                    submitBtnElement.disabled = false;
-                    submitBtnElement.style.opacity = "1";
-                    submitBtnElement.style.cursor = "pointer";
-                } else {
-                    submitBtnElement.disabled = true;
-                    submitBtnElement.style.opacity = "0.5";
-                    submitBtnElement.style.cursor = "not-allowed";
-                }
-            };
-
-            // Kjører sjekken hver gang kunden skriver noe eller endrer et valg
-            visningFormElement.addEventListener('input', window.checkFormValidity);
-            visningFormElement.addEventListener('change', window.checkFormValidity);
-        }
-
     </script>
 </body>
 </html>
