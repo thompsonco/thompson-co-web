@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ledige lokaler | Thompson & Co (DRAFT VERSION)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+          
+            --brand-main: #23377B; 
+            --brand-light: #F0F4F8; /* Lys isblå/grå */
+            --brand-hover: #314B9E; /* Litt lysere blå for hover-effekter */
+            --brand-text: #4A5D7E; /* Muted blågrå for undertekster */
+            
+            --bg-white: #FFFFFF;
+            --text-dark: #111111;
+            --text-grey: #666666;
+            --border-light: #E5E5E5;
+            
+            --disabled-bg: #CFD8E3; /* Gråblå for deaktiverte knapper */
+            --disabled-text: #555555;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        html, body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-white); 
+            color: var(--text-dark); 
+            margin: 0; 
+            line-height: 1.4; 
+            -webkit-font-smoothing: antialiased;
+            max-width: 100vw;
+            overflow-x: hidden; 
+        }
+
+        .container { max-width: 1440px; margin: 0 auto; padding: 0 40px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 30px 0; }
+        .logo { font-size: 20px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--brand-main); }
+        .top-menu-btn { font-size: 18px; font-weight: 800; cursor: pointer; color: #000B18; letter-spacing: 0.5px; transition: opacity 0.2s; }
+        .top-menu-btn:hover { opacity: 0.8; }
+
+        .page-title { font-size: 42px; font-weight: 600; margin: 60px 0 40px 0; letter-spacing: -0.5px; color: var(--brand-main); }
+
+        /* --- TOOLBAR DESKTOP --- */
+        .toolbar-main { display: flex; align-items: center; margin-bottom: 50px; width: 100%; position: relative; z-index: 100; flex-wrap: wrap; }
+
+        /* SIKRER LUFT: Fast bredde på kategoriene + margin til høyre */
+        .left-filters { display: flex; align-items: center; flex-wrap: wrap; width: 560px; margin-right: 30px; flex-shrink: 0; }
+        .filter-scroll-wrapper { position: relative; display: flex; width: 100%; }
+        .filter-group { display: flex; align-items: center; gap: 8px; width: 100%; }
+        
+        /* SIKRER LUFT: Margin auto dytter rutenett/kart helt til høyre kant */
+        .dropdown-group { display: flex; align-items: center; gap: 6px; transition: all 0.3s ease; margin-right: auto; }
+        .controls-group { display: flex; align-items: center; gap: 10px; position: relative; }
+
+        /* Kategori-knapper (Nedskalert 5%) */
+        .btn-type {
+            background: var(--bg-white); border: 1px solid var(--border-light);
+            padding: 6px 14px; font-family: inherit; font-size: 14px; font-weight: 500;
+            color: var(--text-dark); cursor: pointer; transition: all 0.2s ease; height: 38px; white-space: nowrap; position: relative; z-index: 110;
+        }
+        .btn-type.active { background-color: var(--brand-main) !important; color: var(--bg-white) !important; border-color: var(--brand-main); }
+
+        /* Dropdowns (Nedskalert 5%) */
+        .select-wrapper { position: relative; display: inline-block; transition: all 0.2s ease; }
+        .select-wrapper select, .btn-dropdown {
+            appearance: none; -webkit-appearance: none; background-color: var(--brand-light); color: var(--brand-main);
+            font-family: inherit; font-size: 12px; font-weight: 500; border: 1px solid var(--brand-light); 
+            padding: 5px 22px 5px 10px; cursor: pointer; outline: none; height: 32px; white-space: nowrap; text-align: left; width: 100%;
+            transition: all 0.2s ease;
+        }
+        .select-wrapper::after { content: "▼"; font-size: 9px; color: var(--brand-main); position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+
+        .select-wrapper.active-filter select, 
+        .select-wrapper.active-filter .btn-dropdown {
+            border-color: var(--brand-main);
+            font-weight: 700;
+            background-color: var(--brand-light); 
+        }
+
+        .disabled-filter { pointer-events: none; opacity: 0.9; }
+        .disabled-filter select, .disabled-filter .btn-dropdown { background-color: var(--disabled-bg); color: var(--disabled-text); border-color: var(--disabled-bg); font-weight: 500; }
+        .disabled-filter::after { color: var(--disabled-text); }
+
+        /* POPOVERS */
+        .custom-popover { 
+            display: none; position: absolute; top: calc(100% + 5px); left: 0; 
+            background: var(--bg-white); border: 1px solid var(--border-light); 
+            padding: 20px; width: 280px; z-index: 99999; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 6px; cursor: default; 
+        }
+        .custom-popover.show { display: block; }
+        
+        .popover-label { font-size: 12px; color: var(--text-grey); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        
+        .areal-inputs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .areal-input-group { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+        .areal-input-group input[type="text"] { width: 100%; padding: 8px; border: 1px solid var(--border-light); font-family: inherit; color: var(--brand-main); font-weight: 500; }
+        
+        .range-values { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: var(--brand-main); margin-bottom: 10px; }
+
+        .dual-slider-container { position: relative; width: 100%; height: 30px; margin-bottom: 15px; }
+        .slider-track { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 4px; background-color: var(--border-light); border-radius: 4px; z-index: 1; }
+        .dual-slider-container input[type="range"] { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; appearance: none; background: transparent; pointer-events: none; z-index: 2; margin: 0; }
+        .dual-slider-container input[type="range"]::-webkit-slider-thumb { appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--brand-main); pointer-events: auto; cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+        .checkbox-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .checkbox-label { display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer; color: var(--text-dark); }
+        .checkbox-label input { accent-color: var(--brand-main); width: 16px; height: 16px; cursor: pointer; }
+        
+        .contextual-filter { display: inline-block; transition: all 0.3s ease; }
+
+        .btn-popover-apply {
+            background-color: var(--brand-main); color: var(--bg-white);
+            border: 1px solid var(--brand-main); padding: 8px 16px;
+            font-family: inherit; font-size: 14px; font-weight: 500; border-radius: 4px;
+            cursor: pointer; transition: all 0.2s ease; width: 100%;
+        }
+
+        /* --- Sortering (Flyttet lenger ned i midten) --- */
+        .sort-wrapper-desktop {
+            position: absolute; 
+            top: calc(100% + 14px); /* Perfekt plassert mellom knapp og bilde */
+            right: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end;
+            white-space: nowrap;
+        }
+        .sort-plain { 
+            background: transparent; border: none; color: var(--text-grey); 
+            font-family: inherit; font-size: 11px; font-weight: 500; 
+            cursor: pointer; outline: none; padding: 0; 
+            transition: color 0.2s ease;
+        }
+        .sort-plain:hover { color: var(--brand-main); }
+
+        /* Rutenett / Kart */
+        .view-controls { display: flex; gap: 6px; }
+        .btn-view { 
+            display: flex; align-items: center; justify-content: center; background: var(--bg-white); border: 1px solid var(--border-light); 
+            padding: 0 10px; height: 32px; font-family: inherit; font-size: 11px; 
+            color: var(--text-grey); cursor: pointer; transition: all 0.2s ease; gap: 6px; 
+        }
+        .btn-view.active { background-color: var(--brand-light) !important; color: var(--brand-main) !important; border-color: var(--brand-main) !important; font-weight: 500; }
+        .btn-view svg { width: 15px; height: 15px; } 
+        .btn-view.grid-only-icon span { display: none; }
+
+        .btn-reset-desktop {
+            background: transparent; border: none; color: var(--text-grey); font-size: 14px; cursor: pointer;
+            height: 32px; display: flex; align-items: center; justify-content: center; padding: 0 5px; transition: color 0.2s;
+        }
+        .btn-reset-desktop:hover { color: var(--brand-main); }
+
+        .toolbar-sub { display: none !important; }
+        .search-container { display: none !important; }
+
+        #areal-wrapper-desktop { display: inline-block; }
+        #areal-wrapper-mobile { display: none; }
+        #ansatte-wrapper-desktop { display: inline-block; }
+        #ansatte-wrapper-mobile { display: none; }
+        .mobile-action-bar { display: none; }
+        
+        /* --- GRID --- */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 40px; padding-bottom: 40px; }
+        .property-card { text-decoration: none; color: inherit; display: flex; flex-direction: column; position: relative; }
+        .card-image { width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background-color: var(--brand-light); margin-bottom: 16px; position: relative; border-radius: 6px; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.4s ease; }
+        
+        .status-badge { position: absolute; top: 16px; left: 16px; background: var(--brand-light); color: var(--brand-main); padding: 4px 8px; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; z-index: 10; border-radius: 4px;}
+        .status-badge.utleid { background: var(--text-dark); color: var(--bg-white); }
+        .status-badge.ledig { background: #E5E5E5; color: var(--text-dark); }
+        .status-badge.off-markedet { background: #444444; color: var(--bg-white); }
+
+        .card-title { font-size: 24px; font-weight: 600; color: var(--brand-main); margin: 0 0 6px 0; line-height: 1.2; }
+        .card-details { display: flex; flex-direction: column; gap: 2px; font-size: 15px; color: var(--brand-text); font-weight: 500; }
+        .card-details span:first-child { font-size: 15px; font-weight: 500; }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 15px; }
+        .card-broker { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 0; padding-top: 0; }
+        .broker-badge { display: inline-flex; align-items: center; gap: 6px; background-color: var(--brand-light); color: var(--brand-main); padding: 2px 12px 2px 2px; border-radius: 50px; font-size: 11px; font-weight: 600; border: 1px solid var(--border-light); margin-top: 0; }
+        .broker-initials { display: flex; align-items: center; justify-content: center; background-color: var(--brand-main); color: #FFFFFF; font-size: 9px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; }
+
+        .card-arrow { color: var(--brand-main); opacity: 0.5; transition: all 0.3s ease; display: flex; align-items: center; margin-bottom: 2px; }
+
+        .promo-card { background: var(--brand-main); color: var(--bg-white); padding: 40px 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-radius: 6px; position: relative; overflow: hidden; }
+        .promo-avatar { width: 90px; height: 90px; border-radius: 50%; background: var(--brand-light); margin-bottom: 20px; overflow: hidden; border: 3px solid var(--brand-light); }
+        .promo-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .promo-title { font-size: 24px; font-weight: 600; color: var(--brand-light); margin: 0 0 10px 0; line-height: 1.2; }
+        .promo-text { font-size: 15px; color: #FFFFFF; opacity: 0.8; margin: 0 0 25px 0; }
+        .promo-btn { background: var(--brand-light); color: var(--brand-main); padding: 10px 24px; border-radius: 50px; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; border: none; cursor: pointer; }
+        
+        #empty-state { display: none; grid-column: 1 / -1; flex-direction: column; align-items: center; padding: 80px 20px; background-color: var(--brand-light); border-radius: 8px; gap: 15px; }
+
+        .load-more-container { text-align: center; margin-bottom: 80px; display: none; }
+        .btn-load-more { background-color: transparent; border: 1px solid var(--brand-main); color: var(--brand-main); padding: 12px 30px; font-family: inherit; font-size: 15px; font-weight: 600; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
+        
+        @media (hover: hover) {
+            .btn-type:hover { border-color: var(--brand-main); }
+            .select-wrapper select:hover, .btn-dropdown:hover { border-color: var(--brand-main); }
+            .btn-view:hover { border-color: var(--brand-main); color: var(--brand-main); }
+            .property-card:hover .card-image img { filter: brightness(0.85); }
+            .property-card:hover .status-badge { background-color: var(--brand-main); color: var(--brand-light); }
+            .property-card:hover .status-badge.utleid { background: var(--brand-main); color: var(--bg-white); }
+            .property-card:hover .status-badge.ledig { background: var(--brand-main); color: var(--brand-light); }
+            .property-card:hover .status-badge.off-markedet { background: var(--brand-main); color: var(--bg-white); }
+            .property-card:hover .card-title { color: var(--brand-hover); }
+            .property-card:hover .card-arrow { opacity: 1; transform: translateX(5px); }
+            .btn-popover-apply:hover { background-color: var(--brand-hover); }
+            .btn-load-more:hover { background-color: var(--brand-main); color: var(--bg-white); }
+        }
+
+        /* --- MOBIL OPTIMALISERING --- */
+        @media (max-width: 900px) {
+            .container { padding: 0 20px; }
+            .top-menu-btn { font-size: 21px; } 
+
+            .toolbar-main { flex-direction: column; align-items: stretch; gap: 15px; margin-bottom: 30px; }
+            
+            .left-filters { width: 100%; min-width: 0; margin-right: 0; flex-shrink: 1; }
+            .filter-scroll-wrapper { width: calc(100% + 40px); margin-left: -20px; position: relative; max-width: 100vw; }
+            .filter-scroll-wrapper::after { content: ''; position: absolute; right: 0; top: 0; bottom: 10px; width: 40px; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); pointer-events: none; z-index: 200; }
+            
+            .filter-group { display: flex; flex-wrap: nowrap; overflow-x: auto; width: 100%; margin-left: 0; padding: 0 20px 10px 20px; gap: 12px; -webkit-overflow-scrolling: touch; }
+            .filter-group::-webkit-scrollbar { display: none; }
+            
+            /* Nedskalert med 15% på mobil */
+            .filter-group .btn-type { font-size: 16px; height: 44px; padding: 0 20px; flex-shrink: 0; border-radius: 4px; }
+            
+            .mobile-action-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 100%; }
+            
+            .btn-mobile-toggle { 
+                display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border-light); 
+                font-size: 14px; font-weight: 500; color: var(--text-grey); padding: 8px 16px; border-radius: 50px; cursor: pointer; transition: all 0.3s ease;
+            }
+            .btn-mobile-toggle.active-filter { background: var(--brand-light); border-color: var(--brand-main); color: var(--brand-main); font-weight: 700; }
+            
+            .btn-mobile-reset { display: none; background: transparent; border: none; font-size: 13px; font-weight: 500; color: var(--text-grey); padding: 0 10px; cursor: pointer; text-decoration: underline; }
+            .filter-toggle-group { display: flex; align-items: center; }
+
+            .sort-wrapper-desktop { display: none !important; }
+            #desktop-view-controls { display: none; }
+            #mobile-view-controls { display: flex; margin-left: 0; }
+
+            .view-controls { display: flex; gap: 6px; }
+            .btn-view { height: 36px; border-radius: 50px; background-color: var(--brand-light); border: 1px solid transparent; color: var(--text-grey); padding: 0 14px; }
+            .btn-view.active { border-color: var(--brand-main) !important; color: var(--brand-main) !important; }
+            #btn-grid-text-mobile { display: none; } 
+            .btn-view svg { display: block; width: 16px; height: 16px; }
+
+            .dropdown-group { display: none; width: 100%; flex-direction: column; gap: 10px; margin-right: 0; background: var(--bg-white); border: 1px solid var(--border-light); padding: 15px; border-radius: 6px; }
+            .dropdown-group.open { display: flex; }
+            
+            .btn-reset-desktop { display: none; } 
+
+            .select-wrapper { width: 100%; }
+            .select-wrapper select, .btn-dropdown { width: 100%; height: 44px; font-size: 15px; padding-left: 12px; text-align: left; }
+            
+            #areal-wrapper-desktop { display: none; }
+            #areal-wrapper-mobile { display: block; }
+            #ansatte-wrapper-desktop { display: none; }
+            #ansatte-wrapper-mobile { display: block; }
+
+            .grid { grid-template-columns: 1fr; gap: 70px; }
+            .custom-popover { width: 100%; position: static; box-shadow: none; border-left: none; border-right: none; border-radius: 0; padding: 15px 0; border-bottom: none; }
+        }
+        @media (min-width: 901px) {
+            .filter-scroll-wrapper::after { display: none; } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">THOMPSON & CO</div>
+            <div class="top-menu-btn">Meny</div>
+        </header>
+
+        <h1 class="page-title">Ledige lokaler</h1>
+
+        <div class="toolbar-main">
+            <div class="left-filters">
+                <div class="filter-scroll-wrapper">
+                    <div class="filter-group" id="filter-group">
+                        <button class="btn-type active" data-filter="Alle">Alle</button>
+                        <button class="btn-type" data-filter="Kontor">Kontor</button>
+                        <button class="btn-type" data-filter="Handel">Handel</button>
+                        <button class="btn-type" data-filter="Servering">Servering</button>
+                        <button class="btn-type" data-filter="Logistikk">Logistikk</button>
+                        <button class="btn-type" data-filter="Lager">Lager</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-action-bar">
+                <div class="filter-toggle-group">
+                    <button class="btn-mobile-toggle" id="btn-mobile-toggle" onclick="toggleMobileFilterDrawer()">
+                        <svg id="mobile-filter-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                        <span id="mobile-filter-text">Filter søk</span>
+                    </button>
+                    <button class="btn-mobile-reset" id="btn-mobile-reset" onclick="resetDropdowns()">Nullstill</button>
+                </div>
+
+                <div class="controls-group" id="mobile-view-controls">
+                    <div class="view-controls">
+                        <button class="btn-view grid-only-icon active" data-view="grid" onclick="toggleView('grid', this)" title="Rutenett">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            <span id="btn-grid-text-mobile">Rutenett</span>
+                        </button>
+                        <button class="btn-view" data-view="map" onclick="toggleView('map', this)" title="Kart">
+                            <span>Kart</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown-group" id="dropdown-group">
+                <div class="select-wrapper" id="wrapper-omrade">
+                    <select id="filter-omrade" onchange="applyFilters()">
+                        <option value="Alle">Område (Alle)</option>
+                        <option value="Oslo Sentrum">Oslo Sentrum</option>
+                        <option value="Oslo Vika">Oslo Vika</option>
+                        <option value="Bærum">Bærum</option>
+                        <option value="Fornebu">Fornebu</option>
+                    </select>
+                </div>
+
+                <div class="select-wrapper" id="areal-wrapper-desktop">
+                    <button class="btn-dropdown" data-popover="areal-popover">Areal</button>
+                    <div class="custom-popover" id="areal-popover">
+                        <span class="popover-label">Velg størrelse (kvm)</span>
+                        <div class="range-values"><span id="areal-val-min">0</span><span id="areal-val-max">5 000+</span></div>
+                        <div class="dual-slider-container">
+                            <div class="slider-track"></div>
+                            <input type="range" id="areal-min-range" min="0" max="5000" step="50" value="0" oninput="syncAreal(); applyFilters();">
+                            <input type="range" id="areal-max-range" min="0" max="5000" step="50" value="5000" oninput="syncAreal(); applyFilters();">
+                        </div>
+                        <div class="areal-inputs">
+                            <div class="areal-input-group"><label>Min</label><input type="text" id="areal-min-text" value="0" oninput="syncArealText(); applyFilters();"></div>
+                            <div class="areal-input-group"><label>Max</label><input type="text" id="areal-max-text" value="5000" oninput="syncArealText(); applyFilters();"></div>
+                        </div>
+                        <button class="btn-popover-apply" onclick="closeAllPopovers();">Bruk</button>
+                    </div>
+                </div>
+
+                <div class="select-wrapper" id="areal-wrapper-mobile">
+                    <select id="mobile-areal-filter" onchange="applyFilters()">
+                        <option value="0-99999">Areal (Alle)</option>
+                        <option value="0-200">0 - 200 kvm</option>
+                        <option value="201-500">201 - 500 kvm</option>
+                        <option value="501-1000">501 - 1 000 kvm</option>
+                        <option value="1001-2000">1 001 - 2 000 kvm</option>
+                        <option value="2001-5000">2 000 - 5 000 kvm</option>
+                        <option value="5001-99999">Over 5 000 kvm</option>
+                    </select>
+                </div>
+
+                <div class="select-wrapper" id="wrapper-status">
+                    <select id="filter-status" onchange="applyFilters()">
+                        <option value="til-leie">Til leie</option>
+                        <option value="utleid">Utleid</option>
+                        <option value="ledig">Står ledig</option>
+                        <option value="off-markedet">Off Markedet</option>
+                    </select>
+                </div>
+
+                <div class="select-wrapper contextual-filter" id="wrapper-fasiliteter">
+                    <button class="btn-dropdown" data-popover="fasiliteter-popover" style="text-align: left;">Fasiliteter</button>
+                    <div class="custom-popover" id="fasiliteter-popover">
+                        <div class="checkbox-group">
+                            <label class="checkbox-label"><input type="checkbox" class="fac-check" value="parkering" onchange="applyFilters()"> Parkering</label>
+                            <label class="checkbox-label"><input type="checkbox" class="fac-check" value="kaffebar" onchange="applyFilters()"> Kaffebar</label>
+                            <label class="checkbox-label"><input type="checkbox" class="fac-check" value="personalrestaurant" onchange="applyFilters()"> Personalrestaurant</label>
+                            <label class="checkbox-label"><input type="checkbox" class="fac-check" value="kantine" onchange="applyFilters()"> Kantine</label>
+                            <label class="checkbox-label"><input type="checkbox" class="fac-check" value="sykkelparkering" onchange="applyFilters()"> Sykkelparkering</label>
+                            <label class="checkbox-label"><input type="checkbox" class="fac-check" value="treningsrom" onchange="applyFilters()"> Treningsrom</label>
+                            <label class="checkbox-label"><input type="checkbox" class="fac-check" value="garderobe" onchange="applyFilters()"> Garderobe</label>
+                        </div>
+                        <button class="btn-popover-apply" onclick="closeAllPopovers()">Bruk</button>
+                    </div>
+                </div>
+
+                <div class="select-wrapper contextual-filter" id="ansatte-wrapper-desktop">
+                    <button class="btn-dropdown" data-popover="ansatte-popover">Ansatte</button>
+                    <div class="custom-popover" id="ansatte-popover">
+                        <span class="popover-label">Kapasitet (Personer)</span>
+                        <div class="range-values"><span id="ansatte-val-min">1</span><span id="ansatte-val-max">200+</span></div>
+                        <div class="dual-slider-container">
+                            <div class="slider-track"></div>
+                            <input type="range" id="ansatte-min-range" min="1" max="200" step="1" value="1" oninput="syncAnsatte(); applyFilters();">
+                            <input type="range" id="ansatte-max-range" min="1" max="200" step="1" value="200" oninput="syncAnsatte(); applyFilters();">
+                        </div>
+                        <button class="btn-popover-apply" onclick="closeAllPopovers();">Bruk</button>
+                    </div>
+                </div>
+                
+                <div class="select-wrapper contextual-filter" id="ansatte-wrapper-mobile">
+                    <select id="mobile-ansatte-filter" onchange="applyFilters()">
+                        <option value="0-99999">Ansatte (Alle)</option>
+                        <option value="1-10">1 - 10 ansatte</option>
+                        <option value="11-20">11 - 20 ansatte</option>
+                        <option value="21-50">21 - 50 ansatte</option>
+                        <option value="51-100">51 - 100 ansatte</option>
+                        <option value="101-99999">Over 100 ansatte</option>
+                    </select>
+                </div>
+                
+                <button class="btn-reset-desktop" onclick="resetDropdowns()" title="Nullstill filter">✕</button>
+            </div>
+
+            <div class="controls-group" id="desktop-view-controls">
+                <div class="view-controls">
+                    <button class="btn-view grid-only-icon active" data-view="grid" onclick="toggleView('grid', this)" title="Rutenett">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        <span id="btn-grid-text">Rutenett</span>
+                    </button>
+                    <button class="btn-view" data-view="map" onclick="toggleView('map', this)" title="Kart">
+                        <span>Kart</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                    </button>
+                </div>
+
+                <div class="sort-wrapper-desktop">
+                    <select id="sort-select-desktop" class="sort-plain" onchange="applyFilters()">
+                        <option value="publisert">Sorter: Relevant</option>
+                        <option value="areal-desc">Areal (høy-lav)</option>
+                        <option value="areal-asc">Areal (lav-høy)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="toolbar-sub">
+            <div class="search-container">
+                <input type="text" id="search-input" value="">
+            </div>
+        </div>
+
+        <div id="grid-container" class="grid">
+            
+            <a href="#" class="property-card item-card" data-type="Kontor" data-region="Oslo Sentrum" data-areal="362" data-status="til-leie" data-date="31" data-fasiliteter="parkering,kaffebar,sykkelparkering">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Rådhusgata 5B</h2>
+                <div class="card-bottom"><div class="card-details"><span>362 kvm</span><span>Kontor | Oslo Sentrum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+            
+            <a href="#" class="property-card item-card" data-type="Handel" data-region="Bærum" data-areal="132" data-status="til-leie" data-date="30" data-fasiliteter="parkering">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Ringeriksvei 34</h2>
+                <div class="card-bottom"><div class="card-details"><span>132 kvm</span><span>Handel | Bærum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Servering" data-region="Oslo Vika" data-areal="450" data-status="til-leie" data-date="29" data-fasiliteter="garderobe">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Munkedamsveien 12</h2>
+                <div class="card-bottom"><div class="card-details"><span>450 kvm</span><span>Servering | Oslo Vika</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker">
+                        <span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span>
+                        <span class="broker-badge"><span class="broker-initials">BM</span><span>Babak Muktar</span></span>
+                    </div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Kontor" data-region="Oslo Sentrum" data-areal="1400" data-status="off-markedet" data-date="28" data-fasiliteter="kantine,sykkelparkering,treningsrom">
+                <div class="card-image"><div class="status-badge off-markedet">Off Markedet</div><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Bjørvika Business Center</h2>
+                <div class="card-bottom"><div class="card-details"><span>1 400 kvm</span><span>Kontor | Oslo Sentrum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Logistikk" data-region="Fornebu" data-areal="2400" data-status="til-leie" data-date="27" data-fasiliteter="parkering">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1586528116311-ad8ed7c15e61?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Snarøyveien 30</h2>
+                <div class="card-bottom"><div class="card-details"><span>2 400 kvm</span><span>Logistikk | Fornebu</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Kontor" data-region="Oslo Sentrum" data-areal="850" data-status="til-leie" data-date="26">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Dronning Mauds gate 10</h2>
+                <div class="card-bottom"><div class="card-details"><span>850 kvm</span><span>Kontor | Oslo Vika</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <div class="property-card promo-card" id="promo-ad">
+                <div class="status-badge" style="background: var(--bg-white); color: var(--brand-main); z-index: 20; position: absolute; top: 16px; left: 16px; border-radius: 4px; font-weight: 700; padding: 4px 8px; font-size: 9px;">THOMPSON REKLAME</div>
+                <div class="promo-avatar"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400"></div>
+                <h2 class="promo-title">På jakt etter nytt lokale?</h2>
+                <p class="promo-text">Vi hjelper deg å finne den perfekte matchen for din bedrift og dine ansatte.</p>
+                <button class="promo-btn">Kontakt Emil</button>
+            </div>
+
+            <a href="#" class="property-card item-card" data-type="Handel" data-region="Oslo Sentrum" data-areal="220" data-status="til-leie" data-date="25">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Karl Johans gate 14</h2>
+                <div class="card-bottom"><div class="card-details"><span>220 kvm</span><span>Handel | Oslo Sentrum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Servering" data-region="Bærum" data-areal="310" data-status="til-leie" data-date="24">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Sandvika Storsenter</h2>
+                <div class="card-bottom"><div class="card-details"><span>310 kvm</span><span>Servering | Bærum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Lager" data-region="Oslo Sentrum" data-areal="150" data-status="ledig" data-date="23">
+                <div class="card-image"><div class="status-badge ledig">Står ledig</div><img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Tollbugata 24</h2>
+                <div class="card-bottom"><div class="card-details"><span>150 kvm</span><span>Lager | Oslo Sentrum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker">
+                        <span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span>
+                        <span class="broker-badge"><span class="broker-initials">BM</span><span>Babak Muktar</span></span>
+                    </div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Logistikk" data-region="Bærum" data-areal="4200" data-status="til-leie" data-date="22">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Ilium Næringspark</h2>
+                <div class="card-bottom"><div class="card-details"><span>4 200 kvm</span><span>Logistikk | Bærum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+            
+            <a href="#" class="property-card item-card" data-type="Handel" data-region="Fornebu" data-areal="540" data-status="utleid" data-date="21">
+                <div class="card-image"><div class="status-badge utleid">Utleid</div><img src="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Fornebu S</h2>
+                <div class="card-bottom"><div class="card-details"><span>540 kvm</span><span>Handel | Fornebu</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Kontor" data-region="Oslo Vika" data-areal="700" data-status="til-leie" data-date="20">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Aker Brygge 1</h2>
+                <div class="card-bottom"><div class="card-details"><span>700 kvm</span><span>Kontor | Oslo Vika</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Servering" data-region="Oslo Sentrum" data-areal="200" data-status="til-leie" data-date="19">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Torggata 11</h2>
+                <div class="card-bottom"><div class="card-details"><span>200 kvm</span><span>Servering | Oslo Sentrum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Kontor" data-region="Bærum" data-areal="1100" data-status="off-markedet" data-date="18">
+                <div class="card-image"><div class="status-badge off-markedet">Off Markedet</div><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Lysaker Torg</h2>
+                <div class="card-bottom"><div class="card-details"><span>1 100 kvm</span><span>Kontor | Bærum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <a href="#" class="property-card item-card" data-type="Lager" data-region="Fornebu" data-areal="600" data-status="til-leie" data-date="17">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Rolfsbuktveien 4</h2>
+                <div class="card-bottom"><div class="card-details"><span>600 kvm</span><span>Lager | Fornebu</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+            <a href="#" class="property-card item-card" data-type="Kontor" data-region="Oslo Vika" data-areal="320" data-status="til-leie" data-date="16">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Tjuvholmen Allé</h2>
+                <div class="card-bottom"><div class="card-details"><span>320 kvm</span><span>Kontor | Oslo Vika</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+            <a href="#" class="property-card item-card" data-type="Handel" data-region="Oslo Sentrum" data-areal="85" data-status="ledig" data-date="15">
+                <div class="card-image"><div class="status-badge ledig">Står ledig</div><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Prinsens gate</h2>
+                <div class="card-bottom"><div class="card-details"><span>85 kvm</span><span>Handel | Oslo Sentrum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+            <a href="#" class="property-card item-card" data-type="Kontor" data-region="Bærum" data-areal="2100" data-status="til-leie" data-date="14">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Fornebuporten</h2>
+                <div class="card-bottom"><div class="card-details"><span>2 100 kvm</span><span>Kontor | Bærum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+            <a href="#" class="property-card item-card" data-type="Logistikk" data-region="Oslo Sentrum" data-areal="3400" data-status="utleid" data-date="13">
+                <div class="card-image"><div class="status-badge utleid">Utleid</div><img src="https://images.unsplash.com/photo-1586528116311-ad8ed7c15e61?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Nyland Syd</h2>
+                <div class="card-bottom"><div class="card-details"><span>3 400 kvm</span><span>Logistikk | Oslo Sentrum</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+            <a href="#" class="property-card item-card" data-type="Servering" data-region="Fornebu" data-areal="180" data-status="til-leie" data-date="12">
+                <div class="card-image"><div class="status-badge">Til leie</div><img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&q=80&w=1000"></div>
+                <h2 class="card-title">Oksenøyveien</h2>
+                <div class="card-bottom"><div class="card-details"><span>180 kvm</span><span>Servering | Fornebu</span></div></div>
+                <div class="card-footer">
+                    <div class="card-broker"><span class="broker-badge"><span class="broker-initials">ET</span><span>Emil Thompson</span></span></div>
+                    <div class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+                </div>
+            </a>
+
+            <div id="empty-state">
+                <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <h3 style="color: var(--brand-main); margin: 0;">Ingen treff</h3>
+                <p style="color: var(--text-grey);">Juster filtrene for å se flere lokaler.</p>
+                <button onclick="resetDropdowns()" style="margin-top: 10px; background: var(--bg-white); border: 1px solid var(--brand-main); color: var(--brand-main); padding: 8px 20px; cursor: pointer; border-radius: 50px;">Nullstill filter</button>
+            </div>
+        </div>
+        
+        <div class="load-more-container" id="load-more-container">
+            <button class="btn-load-more" onclick="loadMore()">Last inn flere</button>
+        </div>
+
+        <div id="map-container" style="display:none; height: 600px; background: var(--brand-light); text-align: center; padding-top: 100px; border-radius: 6px;">Kartvisning aktivert</div>
+    </div>
+
+    <script>
+        let currentType = 'Alle';
+        let currentLimit = 21; 
+
+        // KATEGORIER (Med dynamiske tall)
+        document.querySelectorAll('.filter-group .btn-type').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.filter-group .btn-type').forEach(b => {
+                    b.classList.remove('active');
+                    b.innerText = b.getAttribute('data-filter'); 
+                });
+                
+                this.classList.add('active');
+                currentType = this.getAttribute('data-filter');
+                
+                const contextFilters = document.querySelectorAll('.contextual-filter');
+                if (currentType === 'Alle' || currentType === 'Kontor') {
+                    contextFilters.forEach(f => f.classList.remove('disabled-filter'));
+                } else {
+                    contextFilters.forEach(f => f.classList.add('disabled-filter'));
+                }
+                
+                currentLimit = 21; 
+                applyFilters();
+            });
+        });
+
+        // SØK (Deaktivert)
+        function toggleSearch(e) {}
+
+        // POPOVERS
+        document.querySelectorAll('.btn-dropdown').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const targetId = this.getAttribute('data-popover');
+                const targetPopover = document.getElementById(targetId);
+                const isCurrentlyOpen = targetPopover.classList.contains('show');
+                closeAllPopovers();
+                if (!isCurrentlyOpen) targetPopover.classList.add('show');
+            });
+        });
+        
+        function closeAllPopovers() {
+            document.querySelectorAll('.custom-popover').forEach(p => p.classList.remove('show'));
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-popover') && !e.target.closest('.btn-dropdown')) closeAllPopovers();
+        });
+
+        // MOBIL UI
+        function updateMobileFilterUI() {
+            const drawer = document.getElementById('dropdown-group');
+            const btnToggle = document.getElementById('btn-mobile-toggle');
+            const btnText = document.getElementById('mobile-filter-text');
+            const btnIcon = document.getElementById('mobile-filter-icon');
+            const resetBtn = document.getElementById('btn-mobile-reset');
+            
+            if (!btnToggle || !resetBtn || !drawer) return;
+            
+            const isOpen = drawer.classList.contains('open');
+            const isActive = btnToggle.classList.contains('active-filter');
+            
+            if (btnIcon) btnIcon.style.display = isOpen ? "none" : "block";
+            resetBtn.style.display = isActive ? "block" : "none";
+            
+            if (isOpen) {
+                btnText.innerText = isActive ? "Bruk filter" : "X Lukk filter";
+            } else {
+                btnText.innerText = "Filter søk";
+            }
+        }
+
+        function toggleMobileFilterDrawer() {
+            const drawer = document.getElementById('dropdown-group');
+            if(drawer) drawer.classList.toggle('open');
+            updateMobileFilterUI();
+        }
+        
+        function updateActiveUI(region, status, minAr, maxAr, minAns, maxAns, facChecks) {
+            let filterIsActiveOverall = false;
+
+            const wOmrade = document.getElementById('wrapper-omrade');
+            if(wOmrade) { wOmrade.classList.toggle('active-filter', region !== 'Alle'); if(region !== 'Alle') filterIsActiveOverall = true; }
+            
+            const wStatus = document.getElementById('wrapper-status');
+            if(wStatus) { wStatus.classList.toggle('active-filter', status !== 'til-leie'); if(status !== 'til-leie') filterIsActiveOverall = true; }
+            
+            if (window.innerWidth > 900) {
+                const wArDesk = document.getElementById('areal-wrapper-desktop');
+                if(wArDesk) { wArDesk.classList.toggle('active-filter', minAr > 0 || maxAr < 5000); if(minAr > 0 || maxAr < 5000) filterIsActiveOverall = true; }
+                
+                const wAnsDesk = document.getElementById('ansatte-wrapper-desktop');
+                if(wAnsDesk) { wAnsDesk.classList.toggle('active-filter', minAns > 1 || maxAns < 200); if(minAns > 1 || maxAns < 200) filterIsActiveOverall = true; }
+            } else {
+                const mobArVal = document.getElementById('mobile-areal-filter').value;
+                const wArMob = document.getElementById('areal-wrapper-mobile');
+                if(wArMob) { wArMob.classList.toggle('active-filter', mobArVal !== '0-99999'); if(mobArVal !== '0-99999') filterIsActiveOverall = true; }
+                
+                const mobAnsVal = document.getElementById('mobile-ansatte-filter').value;
+                const wAnsMob = document.getElementById('ansatte-wrapper-mobile');
+                if(wAnsMob) { wAnsMob.classList.toggle('active-filter', mobAnsVal !== '0-99999'); if(mobAnsVal !== '0-99999') filterIsActiveOverall = true; }
+            }
+
+            const wFac = document.getElementById('wrapper-fasiliteter');
+            if(wFac) { wFac.classList.toggle('active-filter', facChecks.length > 0); if(facChecks.length > 0) filterIsActiveOverall = true; }
+            
+            if(currentType !== 'Alle') filterIsActiveOverall = true; 
+
+            const btnToggle = document.getElementById('btn-mobile-toggle');
+            if (btnToggle) {
+                if (filterIsActiveOverall) {
+                    btnToggle.classList.add('active-filter');
+                } else {
+                    btnToggle.classList.remove('active-filter');
+                }
+                updateMobileFilterUI();
+            }
+        }
+
+        const formatSqm = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        const unformatSqm = (str) => parseInt(str.replace(/\s/g, '')) || 0;
+
+        function syncAreal() {
+            let min = parseInt(document.getElementById('areal-min-range').value);
+            let max = parseInt(document.getElementById('areal-max-range').value);
+            if (min > max) { min = max; document.getElementById('areal-min-range').value = min; }
+            document.getElementById('areal-val-min').innerText = min;
+            document.getElementById('areal-val-max').innerText = max === 5000 ? "5 000+" : max;
+            document.getElementById('areal-min-text').value = min;
+            document.getElementById('areal-max-text').value = max;
+        }
+
+        function syncArealText() {
+            let min = parseInt(document.getElementById('areal-min-text').value) || 0;
+            let max = parseInt(document.getElementById('areal-max-text').value) || 5000;
+            document.getElementById('areal-min-range').value = min;
+            document.getElementById('areal-max-range').value = max;
+            syncAreal();
+        }
+
+        function syncAnsatte() {
+            let min = parseInt(document.getElementById('ansatte-min-range').value);
+            let max = parseInt(document.getElementById('ansatte-max-range').value);
+            if (min > max) { min = max; document.getElementById('ansatte-min-range').value = min; }
+            document.getElementById('ansatte-val-min').innerText = min;
+            document.getElementById('ansatte-val-max').innerText = max === 200 ? "200+" : max;
+        }
+
+        function loadMore() {
+            currentLimit += 21; 
+            applyFilters();
+        }
+
+        function applyFilters(sortModeOverride) {
+            const region = document.getElementById('filter-omrade').value;
+            const status = document.getElementById('filter-status').value;
+            
+            let sort = 'publisert';
+            if (document.getElementById('sort-select-desktop')) {
+                sort = document.getElementById('sort-select-desktop').value;
+            }
+            if (sortModeOverride) sort = sortModeOverride;
+            
+            let minAr = 0, maxAr = 99999, minAns = 0, maxAns = 99999;
+
+            if (window.innerWidth <= 900) {
+                const mobAreal = document.getElementById('mobile-areal-filter').value.split('-');
+                minAr = parseInt(mobAreal[0]);
+                maxAr = parseInt(mobAreal[1]);
+                
+                const mobAnsatte = document.getElementById('mobile-ansatte-filter').value.split('-');
+                minAns = parseInt(mobAnsatte[0]);
+                maxAns = parseInt(mobAnsatte[1]);
+            } else {
+                minAr = parseInt(document.getElementById('areal-min-range').value);
+                let arRangeMax = parseInt(document.getElementById('areal-max-range').value);
+                maxAr = arRangeMax === 5000 ? 99999 : arRangeMax;
+
+                minAns = parseInt(document.getElementById('ansatte-min-range').value);
+                let ansRangeMax = parseInt(document.getElementById('ansatte-max-range').value);
+                maxAns = ansRangeMax === 200 ? 99999 : ansRangeMax;
+            }
+
+            const facChecks = Array.from(document.querySelectorAll('.fac-check:checked')).map(cb => cb.value);
+            
+            updateActiveUI(region, status, minAr, parseInt(document.getElementById('areal-max-range').value), minAns, parseInt(document.getElementById('ansatte-max-range').value), facChecks);
+
+            let allCards = Array.from(document.getElementsByClassName('item-card'));
+            const promoCard = document.getElementById('promo-ad'); 
+            
+            let matchedCards = [];
+
+            allCards.forEach(card => {
+                const cType = card.getAttribute('data-type');
+                const cReg = card.getAttribute('data-region');
+                const cAr = parseInt(card.getAttribute('data-areal'));
+                const cStat = card.getAttribute('data-status');
+                const cFacs = card.getAttribute('data-fasiliteter') || "";
+                
+                const cAns = Math.floor(cAr / 15); 
+                const appliesContext = (currentType === 'Alle' || currentType === 'Kontor');
+
+                const match = (currentType === 'Alle' || currentType === cType) &&
+                              (region === 'Alle' || region === cReg) &&
+                              (cAr >= minAr && cAr <= maxAr) &&
+                              (cStat === status) &&
+                              (!appliesContext || (facChecks.length === 0 || facChecks.every(f => cFacs.includes(f)))) &&
+                              (!appliesContext || (cAns >= minAns && cAns <= maxAns));
+
+                card.style.display = 'none'; 
+                if(match) matchedCards.push(card);
+            });
+
+            const activeBtn = document.querySelector('.filter-group .btn-type.active');
+            if(activeBtn) {
+                const baseName = activeBtn.getAttribute('data-filter');
+                activeBtn.innerText = `${baseName} (${matchedCards.length})`;
+            }
+
+            matchedCards.sort((a, b) => {
+                const arA = parseInt(a.getAttribute('data-areal'));
+                const arB = parseInt(b.getAttribute('data-areal'));
+                if (sort === 'areal-asc') return arA - arB;
+                if (sort === 'areal-desc') return arB - arA;
+                return parseInt(b.getAttribute('data-date')) - parseInt(a.getAttribute('data-date'));
+            });
+
+            if (matchedCards.length >= 6) {
+                matchedCards.splice(6, 0, promoCard);
+            } else if (matchedCards.length > 0) {
+                matchedCards.push(promoCard);
+            }
+            
+            promoCard.style.display = 'none'; 
+
+            const container = document.getElementById('grid-container');
+            document.getElementById('empty-state').style.display = matchedCards.length === 0 ? 'flex' : 'none';
+
+            let paginatedCards = matchedCards.slice(0, currentLimit);
+            
+            paginatedCards.forEach(c => {
+                c.style.display = 'flex';
+                container.appendChild(c);
+            });
+
+            const loadBtn = document.getElementById('load-more-container');
+            if (matchedCards.length > currentLimit) {
+                loadBtn.style.display = 'block';
+            } else {
+                loadBtn.style.display = 'none';
+            }
+        }
+
+        function toggleView(view, btn) {
+            document.querySelectorAll('.btn-view').forEach(b => {
+                b.classList.remove('active');
+                if (b.getAttribute('data-view') === view) {
+                    b.classList.add('active');
+                }
+            });
+            
+            document.getElementById('grid-container').style.display = view === 'grid' ? 'grid' : 'none';
+            document.getElementById('map-container').style.display = view === 'map' ? 'block' : 'none';
+            document.getElementById('load-more-container').style.display = (view === 'grid' && document.querySelectorAll('.item-card[style*="display: none"]').length > 0) ? 'block' : 'none';
+            applyFilters();
+        }
+
+        function resetDropdowns() {
+            document.getElementById('filter-omrade').value = 'Alle';
+            document.getElementById('filter-status').value = 'til-leie';
+            
+            document.getElementById('areal-min-range').value = 0;
+            document.getElementById('areal-max-range').value = 5000;
+            document.getElementById('ansatte-min-range').value = 1;
+            document.getElementById('ansatte-max-range').value = 200;
+            
+            document.getElementById('mobile-areal-filter').value = '0-99999';
+            document.getElementById('mobile-ansatte-filter').value = '0-99999';
+            
+            document.querySelectorAll('.fac-check').forEach(cb => cb.checked = false);
+            
+            document.querySelectorAll('.filter-group .btn-type').forEach(b => {
+                b.classList.remove('active');
+                b.innerText = b.getAttribute('data-filter'); 
+            });
+            document.querySelector('.filter-group .btn-type[data-filter="Alle"]').classList.add('active');
+            currentType = 'Alle';
+            
+            const contextFilters = document.querySelectorAll('.contextual-filter');
+            contextFilters.forEach(f => f.classList.remove('disabled-filter'));
+            
+            currentLimit = 21;
+            syncAreal();
+            syncAnsatte();
+            applyFilters();
+        }
+
+        // Init
+        syncAreal();
+        syncAnsatte();
+        applyFilters();
+    </script>
+</body>
+</html>
