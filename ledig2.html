@@ -75,7 +75,6 @@
         .icon-only-btn { padding: 6px 10px; display: flex; align-items: center; justify-content: center; }
         .select-wrapper:not(.no-arrow)::after { content: "▼"; font-size: 9px; color: var(--brand-main); position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 
-        /* Fyller SVG ikonet når Mega-menyen er aktiv */
         .select-wrapper.active-filter select, 
         .select-wrapper.active-filter .btn-dropdown { border-color: var(--brand-main); font-weight: 700; background-color: var(--brand-light); }
         #flere-filter-wrapper-desktop.active-filter .icon-only-btn svg polygon { fill: currentColor; }
@@ -125,7 +124,7 @@
         .btn-view svg { width: 15px; height: 15px; } 
         .btn-view.grid-only-icon span { display: none; }
 
-        /* Desktop X-knapp (Alltid synlig, reagerer på active) */
+        /* Desktop X-knapp */
         .btn-reset-desktop { 
             display: flex; background: transparent !important; border: none !important; 
             color: var(--text-grey); font-size: 18px; cursor: pointer; height: 38px; 
@@ -180,7 +179,6 @@
         .card-details { display: flex; flex-direction: column; gap: 2px; font-size: 15px; color: var(--brand-text); font-weight: 500; pointer-events: none;}
         .card-details span:first-child { font-size: 15px; font-weight: 500; }
 
-        /* OPPDATERT: Desktop størrelser økt med 15% */
         .card-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 15px; }
         .card-broker { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 0; padding-top: 0; }
         
@@ -237,29 +235,25 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 26, 53, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 999999; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; }
         .modal-overlay.show { display: flex; opacity: 1; }
         
-        /* Modal Desktop Størrelse (+20% bredde) */
         .modal-content { background: var(--bg-white); width: 540px; max-height: 100%; border-radius: 8px; padding: 30px 40px 25px 40px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: translateY(20px); transition: transform 0.3s ease; overflow-y: auto;}
         .modal-overlay.show .modal-content { transform: translateY(0); }
         
-        /* Desktop Logo (+ Luft) */
-        .modal-logo { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; text-align: center; color: var(--brand-main); margin-bottom: 30px; }
+        .modal-logo { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; text-align: center; color: var(--brand-main); margin-bottom: 20px; }
         .modal-close { position: absolute; top: 15px; right: 15px; background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--text-grey); transition: color 0.2s; font-weight: 300; outline: none; display: block; }
         .modal-close:hover { color: var(--brand-main); }
         
         .modal-close-mobile, .sticky-bottom-bar { display: none; }
         
-        /* Komprimert megler-box (-5% høyde) */
-        .broker-profile-box { background-color: var(--brand-light); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
-        .broker-avatar { width: 66px; height: 66px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-white); box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-shrink: 0;}
-        .broker-info h3 { margin: 0 0 4px 0; color: var(--brand-main); font-size: 19px; font-weight: 600; letter-spacing: -0.5px; }
-        .broker-title { margin: 0 0 6px 0; color: var(--brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        /* Nedjustert tekststørrelse kontaktinfo (-20%) */
-        .broker-contact { margin: 0; font-size: 11px; color: var(--text-dark); display: flex; flex-direction: column; gap: 4px; }
+        .broker-profile-box { background-color: var(--brand-light); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .broker-avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-white); box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-shrink: 0;}
+        .broker-info h3 { margin: 0 0 5px 0; color: var(--brand-main); font-size: 19px; font-weight: 600; letter-spacing: -0.5px; }
+        .broker-title { margin: 0 0 8px 0; color: var(--brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .broker-contact { margin: 0; font-size: 11px; color: var(--text-dark); display: flex; flex-direction: column; gap: 6px; }
         .contact-row { display: flex; align-items: center; gap: 8px; }
         .contact-row a { color: var(--brand-main); text-decoration: none; font-weight: 500; }
         .contact-row a:hover { text-decoration: underline; }
         .copy-btn { background: transparent; border: none; color: var(--text-grey); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 2px; transition: color 0.2s ease; outline: none;}
+        .copy-btn svg { width: 11px; height: 11px; } /* Kopier-ikoner ned 20% */
         .copy-btn:hover { color: var(--brand-main); transform: scale(1.1); }
 
         /* SKJEMA DESIGN */
@@ -268,7 +262,6 @@
         .form-row-50-50 .form-group { flex: 1; }
         .form-group { display: flex; flex-direction: column; }
         
-        /* Hvit bakgrunn, 3px understrek */
         .form-group input, .form-group textarea { 
             width: 100%; padding: 12px 4px; border: none; border-bottom: 3px solid var(--brand-main); 
             border-radius: 6px 6px 0 0; font-family: inherit; font-size: 14px; outline: none; 
@@ -277,27 +270,27 @@
         .form-group input:focus, .form-group textarea:focus { border-bottom-color: var(--brand-hover); }
         .form-group input::placeholder, .form-group textarea::placeholder { color: #A0A0A0; font-weight: 400; }
         
-        /* Redusert høyde på textarea for plass (1 enter mindre) */
+        /* Redusert textarea høyde */
         .form-group textarea { resize: none; height: 76px; margin-top: 8px; }
         
-        /* Hurtigvalg-piller: -20% størrelse, dusere farge og ekstra luft til inputfeltet */
-        .quick-message-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 4px; }
+        /* Hurtigvalg-piller: Små, lekre og dusblå */
+        .quick-message-pills { display: flex; gap: 6px 8px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 4px; }
         .quick-pill { 
             background: var(--brand-light); border: 1px solid var(--brand-light); color: var(--brand-text); 
             padding: 4px 11px; border-radius: 50px; font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+            white-space: normal; line-height: 1.2; text-align: center;
         }
         .quick-pill:hover { background: #CFD8E3; color: var(--brand-main); border-color: #CFD8E3;}
         
         .quick-pill.pill-clear { border-color: #A0A0A0; color: #A0A0A0; background: transparent; }
         .quick-pill.pill-clear:hover { background: #A0A0A0; color: var(--bg-white); border-color: #A0A0A0; }
         
-        /* Tilbakeført hjelpetekst */
         .pill-helper-text { font-size: 11px; color: var(--text-grey); margin-top: 4px; font-weight: 500; padding-left: 2px; }
 
-        .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; }
-        .checkbox-row input { margin-top: 3px; accent-color: var(--brand-main); cursor: pointer; width: 16px; height: 16px; flex-shrink: 0;}
-        .checkbox-row label { font-size: 13px; color: var(--text-grey); cursor: pointer; font-weight: 400; line-height: 1.4; }
-        .terms-link { color: var(--brand-main); text-decoration: underline; font-weight: 500; }
+        /* Implisitt samtykke */
+        .terms-text-centered { font-size: 11px; color: var(--text-grey); text-align: center; margin-top: 12px; font-weight: 500; line-height: 1.4; }
+        .terms-text-centered a { color: var(--text-grey); text-decoration: underline; font-weight: 500; }
+        .terms-text-centered a:hover { color: var(--brand-main); }
         
         .form-error-msg { background-color: #FDE8E8; color: #D32F2F; border-radius: 4px; padding: 12px; font-size: 13px; font-weight: 600; display: none; margin-top: 5px; text-align: center; }
 
@@ -360,7 +353,6 @@
 
             .grid { grid-template-columns: 1fr; gap: 70px; }
 
-            /* MOBIL STØRRELSER FOR FOTER (Urørt fra sist gang) */
             .card-footer { padding-top: 20px !important; align-items: center !important; }
             .broker-badge { font-size: 16px !important; padding: 4px 16px 4px 4px !important; }
             .broker-initials { width: 28px !important; height: 28px !important; font-size: 12px !important; }
@@ -377,15 +369,16 @@
             
             /* MODAL PÅ MOBIL */
             .modal-overlay { padding: 0; }
-            .modal-content { width: 100%; height: 100%; border-radius: 0; padding: 25px 20px 0 20px; display: flex; flex-direction: column; overflow-y: auto; }
+            
+            /* Sikrer ingen zoom-feil ved overflow-x: hidden */
+            .modal-content { width: 100%; height: 100%; max-width: 100vw; border-radius: 0; padding: 25px 20px 0 20px; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; }
             .modal-close { display: none !important; } 
             
             .modal-logo { margin-top: 10px; margin-bottom: 25px; font-size: 22px; }
             .broker-profile-box { padding: 15px; margin-bottom: 20px; }
             
-            /* Størrelsen på kontaktinfo nedjustert med -20% for mobil */
             .contact-row a { font-size: 12.5px !important; }
-            .copy-btn svg { width: 13px !important; height: 13px !important; }
+            .copy-btn svg { width: 11px !important; height: 11px !important; } /* Kopier ikoner ned 20% mobil */
             
             .form-row-50-50 { flex-direction: column; gap: 14px; }
             
@@ -718,11 +711,11 @@
                     <div class="broker-contact">
                         <div class="contact-row">
                             <a href="#" id="modal-broker-phone">Telefon</a>
-                            <button class="copy-btn" data-copy="modal-broker-phone" title="Kopier telefon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <button class="copy-btn" data-copy="modal-broker-phone" title="Kopier telefon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                         </div>
                         <div class="contact-row">
                             <a href="#" id="modal-broker-email">E-post</a>
-                            <button class="copy-btn" data-copy="modal-broker-email" title="Kopier e-post"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <button class="copy-btn" data-copy="modal-broker-email" title="Kopier e-post"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                         </div>
                     </div>
                 </div>
@@ -748,14 +741,12 @@
                     </div>
                     <div class="pill-helper-text">Trykk for forhåndsutfylt melding</div>
                 </div>
-                <div class="checkbox-row">
-                    <input type="checkbox" id="terms-check" required>
-                    <label for="terms-check">Jeg godtar vilkår for <a href="#" class="terms-link">personvern</a> og <a href="#" class="terms-link">kommunikasjon</a>.</label>
-                </div>
-                
+
                 <div id="form-error-msg" class="form-error-msg"></div>
 
                 <button type="submit" class="btn-submit" id="modal-submit-btn">Send melding til</button>
+                
+                <div class="terms-text-centered">Ved innsendelse godtar du våre vilkår for <a href="#">personvern</a> og <a href="#">kommunikasjon</a>.</div>
             </form>
 
             <div class="sticky-bottom-bar">
@@ -794,24 +785,18 @@
                 }
             };
 
-            // Initialize App
             syncAreal();
             syncAnsatte();
             applyFilters(null, false);
             initGalleryListeners();
 
-            // ==========================================
-            // GLOBAL CLICK HANDLER (EVENT DELEGATION)
-            // ==========================================
             document.addEventListener('click', function(e) {
-                
-                // 1. Kategori-Meny (Kontor, Handel etc)
                 const catBtn = e.target.closest('.filter-group .btn-type');
                 if (catBtn) {
                     e.preventDefault();
                     document.querySelectorAll('.filter-group .btn-type').forEach(b => {
                         b.classList.remove('active');
-                        b.innerText = b.getAttribute('data-filter'); // Reset tekst
+                        b.innerText = b.getAttribute('data-filter'); 
                     });
                     
                     catBtn.classList.add('active');
@@ -827,7 +812,6 @@
                     return;
                 }
 
-                // 2. Åpne/Lukke Dropdowns (Filter menyer)
                 const dropBtn = e.target.closest('.btn-dropdown');
                 if (dropBtn) {
                     e.preventDefault();
@@ -840,14 +824,12 @@
                     return;
                 }
 
-                // 3. Nullstill Knapp (Desktop & Mobil & Empty State)
                 if (e.target.closest('#btn-reset-desktop') || e.target.closest('#btn-mobile-reset') || e.target.closest('#btn-empty-reset')) {
                     e.preventDefault();
                     resetDropdowns();
                     return;
                 }
 
-                // 4. Lukk knapper i popovers ("Bruk filter")
                 const applyBtn = e.target.closest('.btn-popover-apply');
                 if (applyBtn) {
                     e.preventDefault();
@@ -855,7 +837,6 @@
                     return;
                 }
 
-                // 5. Visnings-knapper (Grid/Kart)
                 const viewBtn = e.target.closest('.btn-view');
                 if (viewBtn) {
                     e.preventDefault();
@@ -868,7 +849,6 @@
                     return;
                 }
 
-                // 6. Mobil Filter-skuff
                 const mobileFilterToggle = e.target.closest('#btn-mobile-toggle');
                 if (mobileFilterToggle) {
                     e.preventDefault();
@@ -878,7 +858,6 @@
                     return;
                 }
 
-                // 7. Galleri Navigasjon
                 const galNav = e.target.closest('.gallery-nav');
                 if (galNav) {
                     e.preventDefault();
@@ -890,7 +869,6 @@
                     return;
                 }
 
-                // 8. Megler Popup (Åpne)
                 const brokerBadge = e.target.closest('.broker-badge');
                 if (brokerBadge) {
                     e.preventDefault();
@@ -901,13 +879,11 @@
                     return;
                 }
 
-                // 9. Lukk Megler Popup
                 if (e.target.closest('#btn-close-modal-top') || e.target.closest('#btn-close-modal-bottom') || e.target === document.getElementById('broker-modal')) {
                     closeModal();
                     return;
                 }
 
-                // 10. Hurtigvalg-Piller
                 const quickPill = e.target.closest('.quick-pill');
                 if (quickPill) {
                     e.preventDefault();
@@ -927,7 +903,6 @@
                     return;
                 }
 
-                // 11. Kopier info
                 const copyBtn = e.target.closest('.copy-btn');
                 if (copyBtn) {
                     e.preventDefault();
@@ -937,7 +912,6 @@
                     return;
                 }
 
-                // 12. Del-knapp (Share)
                 const shareBtn = e.target.closest('.share-action-btn');
                 if (shareBtn) {
                     e.preventDefault();
@@ -951,17 +925,11 @@
                     return;
                 }
 
-                // 13. Lukk popovers ved klikk utenfor
                 if (!e.target.closest('.custom-popover') && !e.target.closest('.modal-content')) {
                     closeAllPopovers();
                 }
             });
 
-            // ==========================================
-            // SKJEMA / LIVE LISTENERS
-            // ==========================================
-
-            // Lytt på alle live filter inputs
             document.querySelectorAll('.live-filter').forEach(el => {
                 el.addEventListener('change', () => applyFilters());
             });
@@ -975,19 +943,16 @@
                 el.addEventListener('input', () => { syncAnsatte(); applyFilters(); });
             });
 
-            // Kontakt Skjema Innsending
             document.getElementById('broker-contact-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const name = document.getElementById('contact-name').value.trim();
                 const contact = document.getElementById('contact-contact').value.trim();
                 const comment = document.getElementById('contact-comment').value.trim();
-                const terms = document.getElementById('terms-check').checked;
                 
                 let missing = [];
                 if(!name) missing.push('Navn');
                 if(!contact) missing.push('E-post eller telefon');
                 if(!comment) missing.push('Melding');
-                if(!terms) missing.push('Vilkår');
                 
                 const errorDiv = document.getElementById('form-error-msg');
                 if(missing.length > 0) {
@@ -1000,10 +965,6 @@
                     showToast("Melding sendt!");
                 }
             });
-
-            // ==========================================
-            // FUNKSJONER
-            // ==========================================
 
             function openBrokerModal(broker) {
                 document.getElementById('modal-broker-img').src = broker.image;
@@ -1083,6 +1044,12 @@
                 btnText.innerText = isOpen ? "✕ Lukk" : "Filter";
             }
 
+            function toggleMobileFilterDrawer() {
+                const drawer = document.getElementById('dropdown-group');
+                if(drawer) drawer.classList.toggle('open');
+                updateMobileFilterUI();
+            }
+            
             function updateActiveUI(region, status, minAr, maxAr, minAns, maxAns, facChecks, energiChecks) {
                 let filterIsActiveOverall = false;
 
@@ -1119,7 +1086,6 @@
                     if(wSortMob) { wSortMob.classList.toggle('active-filter', mobSortVal !== 'publisert'); if(mobSortVal !== 'publisert') filterIsActiveOverall = true; }
                 }
 
-                // Oppdaterer Mobil Filter-knapp
                 const btnToggle = document.getElementById('btn-mobile-toggle');
                 if (btnToggle) {
                     if (filterIsActiveOverall) btnToggle.classList.add('active-filter');
@@ -1127,7 +1093,6 @@
                     updateMobileFilterUI();
                 }
 
-                // DYNAMISK "X" PÅ DESKTOP
                 const btnResetDesk = document.getElementById('btn-reset-desktop');
                 if (btnResetDesk) {
                     if (filterIsActiveOverall) btnResetDesk.classList.add('active-reset');
@@ -1329,8 +1294,7 @@
                     gridContainer.appendChild(c);
                 });
 
-                // Vi trenger ikke kalle initBrokerModals lengre pga Event Delegation!
-                initGalleryListeners(); // Sikrer scroll sync på nye synlige kort
+                initGalleryListeners(); 
             }
 
             function resetDropdowns() {
@@ -1367,7 +1331,6 @@
                 applyFilters();
             }
 
-            // Expose reset to global scope so HTML onclick attributes can reach it
             window.resetDropdowns = resetDropdowns;
         });
     </script>
