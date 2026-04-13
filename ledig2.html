@@ -155,8 +155,9 @@
         .gallery-track a { flex: 0 0 100%; height: 100%; scroll-snap-align: start; display: block; cursor: pointer; }
         .gallery-track img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.4s ease; pointer-events: none; }
         
-        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,26,53,0.3); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: all 0.3s ease; z-index: 20; backdrop-filter: blur(2px); }
-        .gallery-nav:hover { background: rgba(0,26,53,0.7); }
+        /* Bilde-pilene er mørkeblå */
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: var(--brand-main); border: none; color: var(--bg-white); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: all 0.3s ease; z-index: 20; }
+        .gallery-nav:hover { background: var(--brand-hover); }
         .gallery-nav.prev { left: 10px; }
         .gallery-nav.next { right: 10px; }
         .card-image:hover .gallery-nav { opacity: 1; }
@@ -171,30 +172,29 @@
         .status-badge.ledig { background: #E5E5E5; color: var(--text-dark); }
         .status-badge.off-markedet { background: #444444; color: var(--bg-white); }
 
-        .card-title-wrapper { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-        .card-title { font-size: 24px; font-weight: 600; margin: 0; line-height: 1.2; }
+        /* Del-knapp skjult på desktop for å gi plass til meglere */
+        .share-action-btn { display: none; }
+
+        .card-title-wrapper { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 10px; }
+        .card-title { font-size: 24px; font-weight: 600; margin: 0; line-height: 1.2; word-break: break-word; flex: 1; }
         .card-title a { color: var(--brand-main); text-decoration: none; transition: color 0.2s; }
         .card-title a:hover { text-decoration: underline; color: var(--brand-hover); }
 
+        /* Desktop: Meglere bygger seg oppover */
+        .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 15px; position: relative; }
         .card-details { display: flex; flex-direction: column; gap: 2px; font-size: 15px; color: var(--brand-text); font-weight: 500; pointer-events: none;}
         .card-details span:first-child { font-size: 15px; font-weight: 500; }
 
-        .card-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 15px; }
-        .card-broker { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 0; padding-top: 0; }
+        .card-broker { display: flex; flex-direction: column-reverse; position: absolute; bottom: 0; right: 0; align-items: flex-end; gap: 6px; margin: 0; padding: 0; }
         
-        .broker-badge { display: inline-flex; align-items: center; gap: 7px; background-color: var(--brand-light); color: var(--brand-main); padding: 3px 14px 3px 3px; border-radius: 50px; font-size: 13px; font-weight: 600; border: 1px solid var(--border-light); margin-top: 0; cursor: pointer; transition: all 0.3s ease; }
-        .broker-initials { display: flex; align-items: center; justify-content: center; background-color: var(--brand-main); color: #FFFFFF; font-size: 10px; font-weight: 700; width: 23px; height: 23px; border-radius: 50%; transition: all 0.3s ease; }
-        
-        .broker-badge:hover { background-color: var(--brand-main); color: var(--bg-white); border-color: var(--brand-main); }
+        .broker-badge { display: inline-flex; align-items: center; gap: 7px; background-color: var(--brand-light); color: var(--brand-main); padding: 3.5px 16px 3.5px 3.5px; border-radius: 50px; font-size: 15px; font-weight: 600; border: 1px solid var(--border-light); margin-top: 0; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .broker-initials { display: flex; align-items: center; justify-content: center; background-color: var(--brand-main); color: #FFFFFF; font-size: 11px; font-weight: 700; width: 26px; height: 26px; border-radius: 50%; transition: all 0.3s ease; }
+        .broker-badge:hover { background-color: var(--brand-main); color: var(--bg-white); border-color: var(--brand-main); transform: scale(1.02); z-index: 5;}
         .broker-badge:hover .broker-initials { background-color: var(--bg-white); color: var(--brand-main); }
 
-        .card-actions { display: flex; align-items: center; gap: 14px; }
-        .share-action-btn { background: transparent; border: none; color: var(--brand-main); opacity: 0.4; cursor: pointer; padding: 0; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; margin-bottom: 2px; outline: none; }
-        .share-action-btn svg { width: 21px; height: 21px; } 
-        .share-action-btn:hover { opacity: 1; transform: scale(1.1); color: var(--brand-hover); }
-        
-        .card-arrow { color: var(--brand-main); opacity: 0.5; transition: all 0.3s ease; display: flex; align-items: center; margin-bottom: 2px; text-decoration: none;}
-        .card-arrow svg { width: 23px; height: 23px; } 
+        /* Skjul mobil-spesifikk navn på desktop */
+        .broker-name-desktop { display: inline; }
+        .broker-name-mobile { display: none; }
 
         .promo-card { background: var(--brand-main); color: var(--bg-white); padding: 40px 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-radius: 12px; position: relative; overflow: hidden; }
         .promo-avatar { width: 90px; height: 90px; border-radius: 50%; background: var(--brand-light); margin-bottom: 20px; overflow: hidden; border: 3px solid var(--brand-light); }
@@ -228,7 +228,6 @@
             .property-card:hover .status-badge.utleid { background: var(--brand-main); color: var(--bg-white); }
             .property-card:hover .status-badge.ledig { background: var(--brand-main); color: var(--brand-light); }
             .property-card:hover .status-badge.off-markedet { background: var(--brand-main); color: var(--bg-white); }
-            .property-card:hover .card-arrow { opacity: 1; transform: translateX(5px); }
         }
 
         /* --- MEGLER MODAL (POP-UP) --- */
@@ -238,22 +237,22 @@
         .modal-content { background: var(--bg-white); width: 540px; max-height: 100%; border-radius: 8px; padding: 30px 40px 25px 40px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: translateY(20px); transition: transform 0.3s ease; overflow-y: auto;}
         .modal-overlay.show .modal-content { transform: translateY(0); }
         
-        .modal-logo { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; text-align: center; color: var(--brand-main); margin-bottom: 20px; }
+        .modal-logo { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; text-align: center; color: var(--brand-main); margin-bottom: 20px; text-transform: uppercase; }
         .modal-close { position: absolute; top: 15px; right: 15px; background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--text-grey); transition: color 0.2s; font-weight: 300; outline: none; display: block; }
         .modal-close:hover { color: var(--brand-main); }
         
         .modal-close-mobile, .sticky-bottom-bar { display: none; }
         
         .broker-profile-box { background-color: var(--brand-light); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .broker-avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-white); box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-shrink: 0;}
-        .broker-info h3 { margin: 0 0 5px 0; color: var(--brand-main); font-size: 19px; font-weight: 600; letter-spacing: -0.5px; }
-        .broker-title { margin: 0 0 8px 0; color: var(--brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        .broker-contact { margin: 0; font-size: 11px; color: var(--text-dark); display: flex; flex-direction: column; gap: 6px; }
+        .broker-avatar { width: 66px; height: 66px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-white); box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-shrink: 0;}
+        .broker-info h3 { margin: 0 0 4px 0; color: var(--brand-main); font-size: 19px; font-weight: 600; letter-spacing: -0.5px; }
+        .broker-title { margin: 0 0 6px 0; color: var(--brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .broker-contact { margin: 0; font-size: 11px; color: var(--text-dark); display: flex; flex-direction: column; gap: 6px; } 
         .contact-row { display: flex; align-items: center; gap: 8px; }
         .contact-row a { color: var(--brand-main); text-decoration: none; font-weight: 500; }
         .contact-row a:hover { text-decoration: underline; }
         .copy-btn { background: transparent; border: none; color: var(--text-grey); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 2px; transition: color 0.2s ease; outline: none;}
-        .copy-btn svg { width: 11px; height: 11px; } /* Kopier-ikoner ned 20% */
+        .copy-btn svg { width: 11px; height: 11px; } 
         .copy-btn:hover { color: var(--brand-main); transform: scale(1.1); }
 
         /* SKJEMA DESIGN */
@@ -265,29 +264,26 @@
         .form-group input, .form-group textarea { 
             width: 100%; padding: 12px 4px; border: none; border-bottom: 3px solid var(--brand-main); 
             border-radius: 6px 6px 0 0; font-family: inherit; font-size: 14px; outline: none; 
-            transition: border-color 0.2s; background-color: var(--bg-white); color: var(--text-dark);
+            transition: border-color 0.2s; background-color: var(--brand-light); color: var(--brand-text);
         }
         .form-group input:focus, .form-group textarea:focus { border-bottom-color: var(--brand-hover); }
-        .form-group input::placeholder, .form-group textarea::placeholder { color: #A0A0A0; font-weight: 400; }
-        
-        /* Redusert textarea høyde */
+        .form-group input::placeholder, .form-group textarea::placeholder { color: var(--brand-text); font-weight: 500; opacity: 0.8; }
         .form-group textarea { resize: none; height: 76px; margin-top: 8px; }
         
-        /* Hurtigvalg-piller: Små, lekre og dusblå */
+        /* Hurtigvalg-piller */
         .quick-message-pills { display: flex; gap: 6px 8px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 4px; }
         .quick-pill { 
-            background: var(--brand-light); border: 1px solid var(--brand-light); color: var(--brand-text); 
-            padding: 4px 11px; border-radius: 50px; font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+            background: transparent; border: 1px solid var(--brand-main); color: var(--brand-main); 
+            padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
             white-space: normal; line-height: 1.2; text-align: center;
         }
-        .quick-pill:hover { background: #CFD8E3; color: var(--brand-main); border-color: #CFD8E3;}
+        .quick-pill:hover { background: var(--brand-main); color: var(--bg-white); }
         
         .quick-pill.pill-clear { border-color: #A0A0A0; color: #A0A0A0; background: transparent; }
         .quick-pill.pill-clear:hover { background: #A0A0A0; color: var(--bg-white); border-color: #A0A0A0; }
         
         .pill-helper-text { font-size: 11px; color: var(--text-grey); margin-top: 4px; font-weight: 500; padding-left: 2px; }
 
-        /* Implisitt samtykke */
         .terms-text-centered { font-size: 11px; color: var(--text-grey); text-align: center; margin-top: 12px; font-weight: 500; line-height: 1.4; }
         .terms-text-centered a { color: var(--text-grey); text-decoration: underline; font-weight: 500; }
         .terms-text-centered a:hover { color: var(--brand-main); }
@@ -353,12 +349,45 @@
 
             .grid { grid-template-columns: 1fr; gap: 70px; }
 
-            .card-footer { padding-top: 20px !important; align-items: center !important; }
-            .broker-badge { font-size: 16px !important; padding: 4px 16px 4px 4px !important; }
+            /* MOBIL STØRRELSER FOOTER */
+            /* Share-knapp synlig på mobil, størrelse justert for å matche kvm (ca 18px) */
+            .share-action-btn { 
+                display: flex !important; 
+                background: transparent !important; 
+                border: none !important; 
+                color: var(--brand-main) !important; 
+                opacity: 0.4 !important; 
+                cursor: pointer; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                margin-top: 4px !important; 
+                position: static !important; 
+                width: auto !important; 
+                height: auto !important; 
+                align-items: center; 
+                justify-content: center; 
+                outline: none; 
+            }
+            .share-action-btn svg { width: 18px !important; height: 18px !important; stroke-width: 2 !important; }
+            .share-action-btn:hover { opacity: 1 !important; transform: scale(1.1); color: var(--brand-hover) !important; }
+            
+            /* Mobil Megler-Stacking: Vises side om side på en linje hvis mulig */
+            .card-bottom { padding-top: 20px !important; align-items: center !important; position: static !important; }
+            .card-broker { 
+                position: static !important; 
+                flex-direction: row !important; /* Side om side */
+                flex-wrap: wrap !important;
+                align-items: center !important; 
+                gap: 8px !important; 
+                justify-content: flex-end !important; 
+            }
+
+            .broker-badge { font-size: 16px !important; padding: 4px 16px 4px 4px !important; margin: 0 !important;}
             .broker-initials { width: 28px !important; height: 28px !important; font-size: 12px !important; }
-            .share-action-btn svg { width: 27px !important; height: 27px !important; }
-            .card-arrow svg { width: 30px !important; height: 30px !important; }
-            .card-actions { gap: 18px !important; }
+
+            /* Skjuler desktop-navnet (Fornavn+Etternavn) og viser mobil-navnet */
+            .broker-name-desktop { display: none !important; }
+            .broker-name-mobile { display: inline !important; }
 
             .pagination-container { gap: 12px !important; margin: 60px auto 100px auto !important; }
             .page-btn { width: 48px !important; height: 48px !important; font-size: 18px !important; flex-shrink: 0; }
@@ -369,16 +398,24 @@
             
             /* MODAL PÅ MOBIL */
             .modal-overlay { padding: 0; }
-            
-            /* Sikrer ingen zoom-feil ved overflow-x: hidden */
             .modal-content { width: 100%; height: 100%; max-width: 100vw; border-radius: 0; padding: 25px 20px 0 20px; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; }
+            
+            .form-group input, .form-group textarea { font-size: 16px !important; padding: 14px 8px; } 
+            
+            /* Piller bevarer liten mobil-størrelse */
+            .quick-pill { font-size: 11px !important; padding: 6px 12px !important; }
+            
+            .pill-helper-text { font-size: 13px !important; }
+            .terms-text-centered { font-size: 13px !important; }
+            .btn-submit { font-size: 16px !important; padding: 16px !important; }
+            
             .modal-close { display: none !important; } 
             
-            .modal-logo { margin-top: 10px; margin-bottom: 25px; font-size: 22px; }
+            .modal-logo { margin-top: 10px; margin-bottom: 25px; font-size: 22px; } 
             .broker-profile-box { padding: 15px; margin-bottom: 20px; }
             
             .contact-row a { font-size: 12.5px !important; }
-            .copy-btn svg { width: 11px !important; height: 11px !important; } /* Kopier ikoner ned 20% mobil */
+            .copy-btn svg { width: 11px !important; height: 11px !important; }
             
             .form-row-50-50 { flex-direction: column; gap: 14px; }
             
@@ -620,6 +657,175 @@
         </div>
 
         <div id="grid-container" class="grid">
+            
+            <div class="property-card item-card" data-type="Kontor" data-region="Oslo Sentrum" data-areal="362" data-status="til-leie" data-date="31" data-fasiliteter="parkering,kaffebar,sykkelparkering" data-energi="A">
+                <div class="card-image">
+                    <div class="status-badge">Til leie</div>
+                    <button class="gallery-nav prev" data-dir="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="gallery-nav next" data-dir="1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <div class="gallery-track">
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1000"></a>
+                    </div>
+                    <div class="gallery-dots-wrapper"><div class="gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+                </div>
+                <div class="card-title-wrapper">
+                    <h2 class="card-title"><a href="https://thompsonco.no/ledig2">Rådhusgata 5B</a></h2>
+                    <button class="share-action-btn" data-url="https://thompsonco.no/ledig2" title="Del annonse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                </div>
+                <div class="card-bottom">
+                    <div class="card-details"><span>362 kvm</span><span>Kontor | Oslo Sentrum</span></div>
+                    <div class="card-broker">
+                        <span class="broker-badge">
+                            <span class="broker-initials">MT</span>
+                            <span class="broker-name-desktop">Markus Thomas</span>
+                            <span class="broker-name-mobile">Markus</span>
+                        </span>
+                        <span class="broker-badge">
+                            <span class="broker-initials">SN</span>
+                            <span class="broker-name-desktop">Sofie Nilsen</span>
+                            <span class="broker-name-mobile">Sofie</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="property-card item-card" data-type="Handel" data-region="Bærum" data-areal="132" data-status="til-leie" data-date="30" data-fasiliteter="parkering" data-energi="B">
+                <div class="card-image">
+                    <div class="status-badge">Til leie</div>
+                    <button class="gallery-nav prev" data-dir="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="gallery-nav next" data-dir="1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <div class="gallery-track">
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1586528116311-ad8ed7c15e61?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1000"></a>
+                    </div>
+                    <div class="gallery-dots-wrapper"><div class="gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+                </div>
+                <div class="card-title-wrapper">
+                    <h2 class="card-title"><a href="https://thompsonco.no/ledig2">Ringeriksvei 34</a></h2>
+                    <button class="share-action-btn" data-url="https://thompsonco.no/ledig2" title="Del annonse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                </div>
+                <div class="card-bottom">
+                    <div class="card-details"><span>132 kvm</span><span>Handel | Bærum</span></div>
+                    <div class="card-broker">
+                        <span class="broker-badge">
+                            <span class="broker-initials">MT</span>
+                            <span class="broker-name-desktop">Markus Thomas</span>
+                            <span class="broker-name-mobile">Markus Thomas</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card item-card" data-type="Servering" data-region="Oslo Vika" data-areal="450" data-status="til-leie" data-date="29" data-fasiliteter="garderobe" data-energi="C">
+                <div class="card-image">
+                    <div class="status-badge">Til leie</div>
+                    <button class="gallery-nav prev" data-dir="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="gallery-nav next" data-dir="1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <div class="gallery-track">
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1586528116311-ad8ed7c15e61?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000"></a>
+                    </div>
+                    <div class="gallery-dots-wrapper"><div class="gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+                </div>
+                <div class="card-title-wrapper">
+                    <h2 class="card-title"><a href="https://thompsonco.no/ledig2">Munkedamsveien 12</a></h2>
+                    <button class="share-action-btn" data-url="https://thompsonco.no/ledig2" title="Del annonse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                </div>
+                <div class="card-bottom">
+                    <div class="card-details"><span>450 kvm</span><span>Servering | Oslo Vika</span></div>
+                    <div class="card-broker">
+                        <span class="broker-badge">
+                            <span class="broker-initials">MT</span>
+                            <span class="broker-name-desktop">Markus Thomas</span>
+                            <span class="broker-name-mobile">Markus</span>
+                        </span>
+                        <span class="broker-badge">
+                            <span class="broker-initials">SN</span>
+                            <span class="broker-name-desktop">Sofie Nilsen</span>
+                            <span class="broker-name-mobile">Sofie</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card item-card" data-type="Kontor" data-region="Oslo Sentrum" data-areal="1400" data-status="off-markedet" data-date="28" data-fasiliteter="kantine,sykkelparkering,treningsrom" data-energi="B">
+                <div class="card-image">
+                    <div class="status-badge off-markedet">Off Markedet</div>
+                    <button class="gallery-nav prev" data-dir="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="gallery-nav next" data-dir="1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <div class="gallery-track">
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1586528116311-ad8ed7c15e61?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1000"></a>
+                    </div>
+                    <div class="gallery-dots-wrapper"><div class="gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+                </div>
+                <div class="card-title-wrapper">
+                    <h2 class="card-title"><a href="https://thompsonco.no/ledig2">Bjørvika Business C.</a></h2>
+                    <button class="share-action-btn" data-url="https://thompsonco.no/ledig2" title="Del annonse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                </div>
+                <div class="card-bottom">
+                    <div class="card-details"><span>1 400 kvm</span><span>Kontor | Oslo Sentrum</span></div>
+                    <div class="card-broker">
+                        <span class="broker-badge">
+                            <span class="broker-initials">MT</span>
+                            <span class="broker-name-desktop">Markus Thomas</span>
+                            <span class="broker-name-mobile">Markus Thomas</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card item-card" data-type="Logistikk" data-region="Fornebu" data-areal="2400" data-status="til-leie" data-date="27" data-fasiliteter="parkering" data-energi="A">
+                <div class="card-image">
+                    <div class="status-badge">Til leie</div>
+                    <button class="gallery-nav prev" data-dir="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="gallery-nav next" data-dir="1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <div class="gallery-track">
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1586528116311-ad8ed7c15e61?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1000"></a>
+                        <a href="https://thompsonco.no/ledig2"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1000"></a>
+                    </div>
+                    <div class="gallery-dots-wrapper"><div class="gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+                </div>
+                <div class="card-title-wrapper">
+                    <h2 class="card-title"><a href="https://thompsonco.no/ledig2">Snarøyveien 30</a></h2>
+                    <button class="share-action-btn" data-url="https://thompsonco.no/ledig2" title="Del annonse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                </div>
+                <div class="card-bottom">
+                    <div class="card-details"><span>2 400 kvm</span><span>Logistikk | Fornebu</span></div>
+                    <div class="card-broker">
+                        <span class="broker-badge">
+                            <span class="broker-initials">MT</span>
+                            <span class="broker-name-desktop">Markus Thomas</span>
+                            <span class="broker-name-mobile">Markus Thomas</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card promo-card" id="promo-ad">
+                <div class="status-badge" style="background: var(--bg-white); color: var(--brand-main); z-index: 20; position: absolute; top: 16px; left: 16px; border-radius: 4px; font-weight: 700; padding: 4px 8px; font-size: 9px;">THOMPSON REKLAME</div>
+                <div class="promo-avatar"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400"></div>
+                <h2 class="promo-title">På jakt etter nytt lokale?</h2>
+                <p class="promo-text">Vi hjelper deg å finne den perfekte matchen for din bedrift og dine ansatte.</p>
+                <button class="promo-btn">Kontakt megler</button>
+            </div>
+
             <script>
                 const imgs = [
                     "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1000",
@@ -629,27 +835,35 @@
                     "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1000"
                 ];
 
-                const promoHtml = `
-                    <div class="property-card promo-card" id="promo-ad">
-                        <div class="status-badge" style="background: var(--bg-white); color: var(--brand-main); z-index: 20; position: absolute; top: 16px; left: 16px; border-radius: 4px; font-weight: 700; padding: 4px 8px; font-size: 9px;">THOMPSON REKLAME</div>
-                        <div class="promo-avatar"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400"></div>
-                        <h2 class="promo-title">På jakt etter nytt lokale?</h2>
-                        <p class="promo-text">Vi hjelper deg å finne den perfekte matchen for din bedrift og dine ansatte.</p>
-                        <button class="promo-btn">Kontakt megler</button>
-                    </div>
-                `;
-
-                document.write(promoHtml);
-
-                for(let i=31; i>=2; i--) {
+                for(let i=26; i>=1; i--) {
                     let img1 = imgs[i % 5];
                     let img2 = imgs[(i+1) % 5];
                     let img3 = imgs[(i+2) % 5];
                     let img4 = imgs[(i+3) % 5];
                     let img5 = imgs[(i+4) % 5];
                     let type = i % 3 === 0 ? 'Kontor' : (i % 2 === 0 ? 'Handel' : 'Lager');
+                    
                     let broker = i % 2 === 0 ? 'MT' : 'SN';
-                    let brokerName = i % 2 === 0 ? 'Markus Thomas' : 'Sofie Nilsen';
+                    let bFullName1 = broker === 'MT' ? 'Markus Thomas' : 'Sofie Nilsen';
+                    let bFirstName1 = bFullName1.split(' ')[0];
+                    
+                    let extraBrokerHtml = '';
+                    let mobileName1 = bFullName1; // Default to full name on mobile if 1 broker
+                    
+                    if (i === 25 || i === 20 || i === 31) {
+                        mobileName1 = bFirstName1; // Shrink to first name only if 2 brokers
+                        
+                        let b2 = broker === 'MT' ? 'SN' : 'MT';
+                        let bFullName2 = broker === 'MT' ? 'Sofie Nilsen' : 'Markus Thomas';
+                        let bFirstName2 = bFullName2.split(' ')[0];
+                        
+                        extraBrokerHtml = `
+                        <span class="broker-badge">
+                            <span class="broker-initials">${b2}</span>
+                            <span class="broker-name-desktop">${bFullName2}</span>
+                            <span class="broker-name-mobile">${bFirstName2}</span>
+                        </span>`;
+                    }
                     
                     document.write(`
                     <div class="property-card item-card" data-type="${type}" data-region="Oslo Vika" data-areal="${300 + (i*50)}" data-status="til-leie" data-date="${i}" data-energi="${['A','B','C','D'][i%4]}">
@@ -668,13 +882,17 @@
                         </div>
                         <div class="card-title-wrapper">
                             <h2 class="card-title"><a href="https://thompsonco.no/ledig2">Testlokale ${i}</a></h2>
+                            <button class="share-action-btn" data-url="https://thompsonco.no/ledig2" title="Del annonse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
                         </div>
-                        <div class="card-bottom"><div class="card-details"><span>${300 + (i*50)} kvm</span><span>${type} | Oslo Vika</span></div></div>
-                        <div class="card-footer">
-                            <div class="card-broker"><span class="broker-badge"><span class="broker-initials">${broker}</span><span>${brokerName}</span></span></div>
-                            <div class="card-actions">
-                                <button class="share-action-btn" data-url="https://thompsonco.no/ledig2" title="Del annonse"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
-                                <a href="https://thompsonco.no/ledig2" class="card-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                        <div class="card-bottom">
+                            <div class="card-details"><span>${300 + (i*50)} kvm</span><span>${type} | Oslo Vika</span></div>
+                            <div class="card-broker">
+                                <span class="broker-badge">
+                                    <span class="broker-initials">${broker}</span>
+                                    <span class="broker-name-desktop">${bFullName1}</span>
+                                    <span class="broker-name-mobile">${mobileName1}</span>
+                                </span>
+                                ${extraBrokerHtml}
                             </div>
                         </div>
                     </div>
@@ -699,7 +917,7 @@
 
     <div id="broker-modal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-logo">THOMPSON & CO</div>
+            <div class="modal-logo">Kontakt oss</div>
 
             <button class="modal-close" id="btn-close-modal-top">×</button>
             
@@ -735,7 +953,7 @@
                     <textarea id="contact-comment" placeholder="Skriv din melding her..." required></textarea>
                     <div class="quick-message-pills">
                         <button type="button" class="quick-pill" data-type="visning">Visning</button>
-                        <button type="button" class="quick-pill" data-type="sporsmal">Spørsmål om et lokale</button>
+                        <button type="button" class="quick-pill" data-type="sporsmal">Spørsmål</button>
                         <button type="button" class="quick-pill" data-type="hjelp">Hjelp finne lokale</button>
                         <button type="button" class="quick-pill pill-clear" data-type="tom">Tøm</button>
                     </div>
