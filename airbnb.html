@@ -108,9 +108,9 @@
             color: var(--text-dark);
             text-transform: uppercase;
             letter-spacing: 1px;
+            border-bottom: none;
         }
 
-        /* Spesialoverskrift for oppsummering til høyre */
         .oppsummering-tittel-hoyre {
             text-align: right;
             font-size: 22px;
@@ -415,11 +415,11 @@
                         <div class="input-grid">
                             <div class="input-gruppe">
                                 <label>Brutto leieinntekt</label>
-                                <input type="text" class="tall-input" id="inntekt${i}" oninput="beregn(${i})" placeholder="0">
+                                <input type="text" inputmode="numeric" class="tall-input" id="inntekt${i}" oninput="beregn(${i})" placeholder="0">
                             </div>
                             <div class="input-gruppe">
                                 <label>Antall netter</label>
-                                <input type="text" class="tall-input" id="netter${i}" oninput="beregn(${i})" placeholder="0">
+                                <input type="text" inputmode="numeric" class="tall-input" id="netter${i}" oninput="beregn(${i})" placeholder="0">
                             </div>
                         </div>
 
@@ -455,14 +455,14 @@
 
                         <h3 class="seksjon-tittel">KOSTNADER</h3>
                         <div class="input-grid">
-                            <div class="input-gruppe"><label>Bosted</label><input type="text" class="tall-input" id="bosted${i}" oninput="beregn(${i})" placeholder="0"></div>
-                            <div class="input-gruppe"><label>Fly</label><input type="text" class="tall-input" id="fly${i}" oninput="beregn(${i})" placeholder="0"></div>
-                            <div class="input-gruppe"><label>Tog</label><input type="text" class="tall-input" id="tog${i}" oninput="beregn(${i})" placeholder="0"></div>
-                            <div class="input-gruppe"><label>Vask og såpe</label><input type="text" class="tall-input" id="vask${i}" oninput="beregn(${i})" placeholder="0"></div>
-                            <div class="input-gruppe"><label>Andre kostnader</label><input type="text" class="tall-input" id="andre${i}" oninput="beregn(${i})" placeholder="0"></div>
+                            <div class="input-gruppe"><label>Bosted</label><input type="text" inputmode="numeric" class="tall-input" id="bosted${i}" oninput="beregn(${i})" placeholder="0"></div>
+                            <div class="input-gruppe"><label>Fly</label><input type="text" inputmode="numeric" class="tall-input" id="fly${i}" oninput="beregn(${i})" placeholder="0"></div>
+                            <div class="input-gruppe"><label>Tog</label><input type="text" inputmode="numeric" class="tall-input" id="tog${i}" oninput="beregn(${i})" placeholder="0"></div>
+                            <div class="input-gruppe"><label>Vask og såpe</label><input type="text" inputmode="numeric" class="tall-input" id="vask${i}" oninput="beregn(${i})" placeholder="0"></div>
+                            <div class="input-gruppe"><label>Andre kostnader</label><input type="text" inputmode="numeric" class="tall-input" id="andre${i}" oninput="beregn(${i})" placeholder="0"></div>
                         </div>
 
-                        <h3 class="oppsummering-tittel-hoyre">OPPSUMMERING</h3>
+                        <h3 class="oppsummering-tittel-hoyre">OVERSKRIFT</h3>
                         <div class="regnskap-boks" id="regnskap${i}"></div>
 
                         <div style="margin-top:25px;">
